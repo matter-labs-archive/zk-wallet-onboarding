@@ -1,6 +1,6 @@
 {
   "name": "@matterlabs/zk-wallet-onboarding",
-  "version": "1.18.3",
+  "version": "1.18.4",
   "description": "Onboard zkSync users users to web3 by allowing them to select a wallet, get that wallet ready to transact and have access to synced wallet state. Forked from @bnc-onboard",
   "keywords": [
     "zksync",
