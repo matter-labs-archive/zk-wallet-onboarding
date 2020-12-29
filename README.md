@@ -4,7 +4,7 @@ JavaScript library to easily onboard users to ethereum apps by enabling wallet s
 
 ## Install
 
-`npm install bnc-onboard`
+`npm install @mattermost/zk-wallet-onboarding`
 
 ## Quick Start
 

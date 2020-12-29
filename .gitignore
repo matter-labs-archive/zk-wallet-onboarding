@@ -5,3 +5,6 @@ package-lock.json
 .rpt2_cache
 .vscode
 *.patch
+.idea
+/.npmrc.swp
+/yarn-error.log
