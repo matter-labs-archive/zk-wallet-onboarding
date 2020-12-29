@@ -192,8 +192,8 @@ export function getProviderName(provider: any): string | undefined {
     return 'wallet.io'
   }
   if (provider.isDcentWallet) {
-    return 'D\'CENT'
-  }  
+    return "D'CENT"
+  }
   if (provider.isTokenPocket) {
     return 'TokenPocket'
   }
@@ -339,10 +339,7 @@ export function makeCancelable(promise: any) {
 }
 
 export function isPromise(val: any): val is Promise<any> {
-  if ((val as Promise<any>) instanceof Promise) {
-    return true
-  }
-  return false
+  return (val as Promise<any>) instanceof Promise
 }
 
 export function createInterval(func: any, interval: number) {

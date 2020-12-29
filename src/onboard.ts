@@ -28,7 +28,8 @@ import {
   API,
   ConfigOptions,
   UserState,
-  Wallet
+  Wallet,
+  PopupContent
 } from './interfaces'
 
 import initializeModules from './modules'
@@ -42,6 +43,8 @@ function init(initialization: Initialization): API {
   }
 
   validateInit(initialization)
+
+  const popupContent: PopupContent | undefined = initialization.popupContent
 
   const {
     subscriptions,
@@ -58,23 +61,16 @@ function init(initialization: Initialization): API {
   const initializedModules = initializeModules(
     networkId,
     initialization.walletSelect,
-    initialization.walletCheck
+    initialization.walletCheck,
+    popupContent
   )
 
   let displayBranding: boolean
 
   if (dappId) {
-    if (hideBranding !== false) {
-      displayBranding = false
-    } else {
-      displayBranding = true
-    }
+    displayBranding = hideBranding === false
   } else {
-    if (hideBranding !== true) {
-      displayBranding = true
-    } else {
-      displayBranding = false
-    }
+    displayBranding = hideBranding !== true
   }
 
   app.update((store: AppState) => ({

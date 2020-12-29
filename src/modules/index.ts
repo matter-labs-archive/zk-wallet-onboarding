@@ -3,7 +3,8 @@ import check from './check'
 import {
   WalletCheckModule,
   WalletCheckInit,
-  WalletSelectModuleOptions
+  WalletSelectModuleOptions,
+  PopupContent
 } from '../interfaces'
 
 const defaultHeading = 'Select a Wallet'
@@ -13,7 +14,8 @@ const defaultWalletExplanation = `Wallets are used to send, receive, and store d
 export default function initializeModules(
   networkId: number,
   walletSelect: WalletSelectModuleOptions | undefined,
-  walletCheck: Array<WalletCheckModule | WalletCheckInit> | undefined
+  walletCheck: Array<WalletCheckModule | WalletCheckInit> | undefined,
+  popupContent: PopupContent | undefined
 ) {
   const wallets = select(walletSelect && walletSelect.wallets, networkId)
 
@@ -24,7 +26,8 @@ export default function initializeModules(
         (walletSelect && walletSelect.description) || defaultDescription,
       wallets,
       explanation:
-        (walletSelect && walletSelect.explanation) || defaultWalletExplanation
+        (walletSelect && walletSelect.explanation) || defaultWalletExplanation,
+      popupContent: popupContent
     },
     walletCheck: check(walletCheck, networkId)
   }

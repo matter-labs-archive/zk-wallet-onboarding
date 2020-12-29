@@ -31,6 +31,12 @@ const onboard = Onboard({
       web3 = new Web3(wallet.provider)
       console.log(`${wallet.name} connected!`)
     }
+  },
+  // Content shown in wallet select popup at the botton -> expandable teaser that can be used to onboard, describe or as a call-to-action
+  popupContent: {
+    teaser: "Can't find your wallet?",
+    fullHtml: "Oh, dear... It's so sad :(",
+    dismiss: "Dismiss"
   }
 })
 
