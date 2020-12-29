@@ -1,11 +1,12 @@
 {
-  "name": "bnc-onboard",
-  "version": "1.17.1",
-  "description": "Onboard users to web3 by allowing them to select a wallet, get that wallet ready to transact and have access to synced wallet state.",
+  "name": "@mattermost/zk-wallet-onboarding",
+  "version": "1.18.0",
+  "description": "Onboard zkSync users users to web3 by allowing them to select a wallet, get that wallet ready to transact and have access to synced wallet state. Forked from @bnc-onboard",
   "keywords": [
+    "zksync",
     "ethereum",
     "web3",
-    "blocknative",
+    "zkwallet",
     "wallet"
   ],
   "main": "dist/cjs/onboard.js",
@@ -14,10 +15,14 @@
   "files": [
     "dist"
   ],
-  "author": "Aaron Barnard <aaron@blocknative.com>",
+  "author": {
+    "name": "Matter Labs",
+    "email": "s.beresnev@matterlabs.dev",
+    "url": "https://zksync.io/contact.html"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blocknative/onboard"
+    "url": "https://github.com/matter-labs/onboard"
   },
   "license": "MIT",
   "devDependencies": {
@@ -46,7 +51,7 @@
   },
   "dependencies": {
     "@ledgerhq/hw-app-eth": "^5.21.0",
-    "@ledgerhq/hw-transport-u2f": "^5.21.0",
+    "@ledgerhq/hw-transport-u2f": "^5.36.0-deprecated",
     "@portis/web3": "^2.0.0-beta.57",
     "@toruslabs/torus-embed": "^1.9.2",
     "@unilogin/provider": "^0.6.1",

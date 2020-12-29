@@ -254,24 +254,28 @@
         {loadingWallet}
         {showingAllWalletModules}
         {showAllWallets} />
-      <div class="bn-onboard-custom bn-onboard-select-info-container">
-        <span
-          class="bn-onboard-custom bn-onboard-select-wallet-info"
-          on:click={() => (showWalletDefinition = !showWalletDefinition)}>
-          What is a wallet?
-        </span>
-        {#if mobileDevice}
-          <Button onclick={() => finish({ completed: false })}>Dismiss</Button>
-        {/if}
-      </div>
-      {#if showWalletDefinition}
-        <p
-          in:fade
-          class="bn-onboard-custom bn-onboard-select-wallet-definition">
-          {@html modalData.explanation}
-        </p>
-      {/if}
-    {:else}
+        <div class="bn-onboard-custom bn-onboard-select-info-container">
+            <span
+              class="bn-onboard-custom bn-onboard-select-wallet-info"
+              on:click={() => (showWalletDefinition = !showWalletDefinition)}>
+              Can't find your wallet?
+            </span>
+            {#if mobileDevice}
+              <Button onclick={() => finish({ completed: false })}>Dismiss</Button>
+            {/if}
+          </div>
+          {#if showWalletDefinition}
+            <p
+              in:fade
+              class="bn-onboard-custom bn-onboard-select-wallet-definition">
+              If your wallet is not on the list yet, it is nonetheless possible to withdrawal your funds to L1 (you can <a href="https://zksync.io/faq/wallets
+              .html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message">learn more</a> about it here).
+
+              <span class="bn-call-to-action-line">To initiate withdrawal, <strong>send your address</strong> to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable"
+              href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span>
+              In the future, this functionality will be automated.
+            </p>
+          {/if}
       <SelectedWallet
         {selectedWalletModule}
         onBack={() => {
