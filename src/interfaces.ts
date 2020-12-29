@@ -8,6 +8,13 @@ export interface Initialization {
   apiUrl?: string
   hideBranding?: boolean
   blockPollingInterval?: number
+  popupContent?: PopupContent
+}
+
+export interface PopupContent {
+  teaser: string
+  fullHtml: string
+  dismiss: string
 }
 
 export interface Subscriptions {
@@ -29,6 +36,7 @@ export interface WalletSelectModule {
   description: string
   wallets: Array<WalletModule | WalletInitOptions>
   explanation?: string
+  popupContent?: PopupContent
 }
 
 export interface WalletCheckModule {
@@ -65,6 +73,7 @@ export interface WalletSelectModalData {
   explanation?: string
   primaryWallets: WalletModule[]
   secondaryWallets: WalletModule[] | undefined
+  popupContent?: PopupContent
 }
 
 export interface UserState {
@@ -274,8 +283,8 @@ interface LocaleLinks<T> {
   ja?: T
   ko?: T
   de?: T
-  zh?: T,
-  es?: T,
+  zh?: T
+  es?: T
 }
 
 interface ThemeParams {
@@ -307,7 +316,13 @@ export interface TorusOptions extends CommonWalletOptions {
   buttonPosition?: 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
   modalZIndex?: number
   apiKey?: string
-  buildEnv?: 'production' | 'development' | 'binance' | 'testing' | 'lrc' | 'beta'
+  buildEnv?:
+    | 'production'
+    | 'development'
+    | 'binance'
+    | 'testing'
+    | 'lrc'
+    | 'beta'
   enableLogging?: boolean
   enabledVerifiers?: VerifierStatus
   loginConfig?: LoginConfig
