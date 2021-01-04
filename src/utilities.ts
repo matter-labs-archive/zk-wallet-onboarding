@@ -149,23 +149,21 @@ export function createModernProviderInterface(provider: any): WalletInterface {
       get: () => getBalance(provider)
     },
     connect: () =>
-      new Promise(
-        (resolve: () => void, reject: (err: { message: string }) => void) => {
-          const request = provider.request
-            ? getAddress(provider).then((address: string) => {
-                return address
-                  ? address
-                  : provider.request({ method: 'eth_requestAccounts' })
-              })
-            : provider.enable()
-
-          return request.then(resolve).catch(() =>
-            reject({
-              message: 'This dapp needs access to your account information.'
+      new Promise((resolve, reject: (err: { message: string }) => void) => {
+        const request = provider.request
+          ? getAddress(provider).then((address: string) => {
+              return address
+                ? address
+                : provider.request({ method: 'eth_requestAccounts' })
             })
-          )
-        }
-      ),
+          : provider.enable()
+
+        return request.then(resolve).catch(() =>
+          reject({
+            message: 'This dapp needs access to your account information.'
+          })
+        )
+      }),
     name: getProviderName(provider)
   }
 }

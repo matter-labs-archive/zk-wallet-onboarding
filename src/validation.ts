@@ -11,7 +11,13 @@ import {
   WalletSelectModuleOptions
 } from './interfaces'
 
-const validSubscriptionKeys = ['address', 'network', 'balance', 'wallet']
+const validSubscriptionKeys = [
+  'address',
+  'network',
+  'balance',
+  'wallet',
+  'popupContent'
+]
 
 export function validateType(options: {
   name: string
@@ -79,7 +85,8 @@ export function validateInit(init: Initialization): never | void {
       'darkMode',
       'apiUrl',
       'hideBranding',
-      'blockPollingInterval'
+      'blockPollingInterval',
+      'popupContent'
     ],
     'init'
   )
@@ -448,7 +455,11 @@ export function validateConfig(configuration: ConfigOptions): never | void {
 
   const { darkMode, networkId, ...otherParams } = configuration
 
-  invalidParams(otherParams, ['darkMode', 'networkId'], 'configuration')
+  invalidParams(
+    otherParams,
+    ['darkMode', 'networkId', 'popupContent'],
+    'configuration'
+  )
 
   validateType({
     name: 'darkMode',
@@ -648,7 +659,7 @@ export function validateWalletInit(
       'rpcUri',
       'webUri',
       'xsUri',
-      'blockedPopupRedirect',
+      'blockedPopupRedirect'
     ],
     'walletInitObject'
   )

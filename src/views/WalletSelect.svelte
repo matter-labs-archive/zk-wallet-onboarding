@@ -96,8 +96,6 @@
       return !osExclusions.includes(os.name)
     })
 
-    const popupContent = defaultPopupContent;
-
     if (deviceWallets.find(wallet => wallet.preferred)) {
       // if preferred wallets, then split in to preferred and not preferred
       primaryWallets = deviceWallets.filter(wallet => wallet.preferred)

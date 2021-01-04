@@ -15,7 +15,7 @@ export default function initializeModules(
   networkId: number,
   walletSelect: WalletSelectModuleOptions | undefined,
   walletCheck: Array<WalletCheckModule | WalletCheckInit> | undefined,
-  popupContent: PopupContent | undefined
+  popupContent: PopupContent
 ) {
   const wallets = select(walletSelect && walletSelect.wallets, networkId)
 

@@ -8,7 +8,7 @@ export interface Initialization {
   apiUrl?: string
   hideBranding?: boolean
   blockPollingInterval?: number
-  popupContent?: PopupContent
+  popupContent: PopupContent
 }
 
 export interface PopupContent {
@@ -28,7 +28,8 @@ export interface WalletSelectModuleOptions {
   heading?: string
   description?: string
   wallets?: Array<WalletModule | WalletInitOptions>
-  explanation?: string
+  explanation?: string,
+  popupContent?: PopupContent
 }
 
 export interface WalletSelectModule {
@@ -414,6 +415,7 @@ interface GetState {
 export interface ConfigOptions {
   darkMode?: boolean
   networkId?: number
+  popupContent?: PopupContent
 }
 
 export interface API {
@@ -487,6 +489,7 @@ export interface AppState {
   walletSelectDisplayedUI: boolean
   walletCheckDisplayedUI: boolean
   displayBranding: boolean
+  popupContent?: PopupContent
 }
 
 export interface CancelablePromise extends Promise<any> {
