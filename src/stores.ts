@@ -11,9 +11,14 @@ import {
   StateSyncer,
   BalanceStore,
   CancelablePromise,
-  WalletCheckModule
+  WalletCheckModule, PopupContent
 } from './interfaces'
 
+const defaultPopupContent: PopupContent = {
+  dismiss: 'Dismiss',
+  teaser: "Can't find your wallet?",
+  fullHtml: `If your wallet is not on the list yet, it is nonetheless <a href="https://zksync.io/faq/wallets.html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message" target="_blank">possible to withdrawal your funds to L1</a>.<span class="bn-call-to-action-line">To request a withdrawal, send your zkSync address to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable" href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span> In the future, this functionality will be automated.`
+}
 export const app: WritableStore = writable({
   dappId: '',
   networkId: 1,
@@ -32,6 +37,7 @@ export const app: WritableStore = writable({
   walletCheckDisplayedUI: false,
   displayBranding: false,
   blockPollingInterval: 4000,
+  popupContent: defaultPopupContent
 })
 
 export const stateSyncStatus: {
@@ -59,7 +65,7 @@ export let walletInterface: WalletInterfaceStore
 
 let currentSyncerIntervals: ({ clear: () => void } | undefined)[]
 
-export function initializeStores() {
+export const initializeStores = () => {
   address = createWalletStateSliceStore({
     parameter: 'address',
     initialState: null

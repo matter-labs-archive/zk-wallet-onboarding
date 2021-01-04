@@ -38,7 +38,8 @@
     dismiss: "Dismiss",
     teaser: "Can't find your wallet?",
     fullHtml:
-      `If your wallet is not on the list yet, it is nonetheless possible to withdrawal your funds to L1 (you can <a href="https://zksync.io/faq/wallets.html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message">learn more</a> about it here). <span class="bn-call-to-action-line">To initiate withdrawal, <strong>send your address</strong> to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable" href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span> In the future, this functionality will be automated.`,
+      `If your wallet is not on the list yet, it is nonetheless <a href="https://zksync.io/faq/wallets.html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message" target="_blank">possible to withdrawal your funds to L1</a>.
+ <span class="bn-call-to-action-line">To request a withdrawal, send your zkSync address to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable" href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span> In the future, this functionality will be automated.`,
   }
 
   export let module: WalletSelectModule = {
@@ -94,8 +95,6 @@
       const { osExclusions = [] } = wallet
       return !osExclusions.includes(os.name)
     })
-
-    const popupContent = defaultPopupContent;
 
     if (deviceWallets.find(wallet => wallet.preferred)) {
       // if preferred wallets, then split in to preferred and not preferred

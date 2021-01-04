@@ -5,31 +5,30 @@ import { get } from 'svelte/store'
 import Onboard from './views/Onboard.svelte'
 
 import {
-  app,
   address,
-  network,
+  app,
   balance,
-  wallet,
-  state,
-  walletInterface,
+  initializeStores,
+  network,
   resetWalletState,
-  initializeStores
+  state,
+  wallet,
+  walletInterface
 } from './stores'
 
 import { getDeviceInfo } from './utilities'
 import { initializeBlocknative } from './services'
-import { validateInit, validateConfig } from './validation'
+import { validateConfig, validateInit } from './validation'
 
 import { version } from '../package.json'
 
 import {
-  Initialization,
-  AppState,
   API,
+  AppState,
   ConfigOptions,
+  Initialization,
   UserState,
-  Wallet,
-  PopupContent
+  Wallet
 } from './interfaces'
 
 import initializeModules from './modules'
@@ -44,8 +43,6 @@ function init(initialization: Initialization): API {
 
   validateInit(initialization)
 
-  const popupContent: PopupContent | undefined = initialization.popupContent
-
   const {
     subscriptions,
     dappId,
@@ -53,7 +50,8 @@ function init(initialization: Initialization): API {
     darkMode,
     apiUrl,
     hideBranding,
-    blockPollingInterval = 4000
+    blockPollingInterval = 4000,
+    popupContent
   } = initialization
 
   const { os, browser, isMobile } = getDeviceInfo()
@@ -152,7 +150,7 @@ function init(initialization: Initialization): API {
           walletSelectDisplayedUI
         } = store
 
-        if (walletSelectInProgress === false) {
+        if (!walletSelectInProgress) {
           appUnsubscribe()
 
           // timeout for UI transitions if it was displayed
@@ -184,7 +182,7 @@ function init(initialization: Initialization): API {
           walletCheckCompleted,
           walletCheckDisplayedUI
         } = store
-        if (walletCheckInProgress === false) {
+        if (!walletCheckInProgress) {
           appUnsubscribe()
           walletCheckDisplayedUI
             ? setTimeout(() => {
@@ -215,7 +213,7 @@ function init(initialization: Initialization): API {
 
       const appUnsubscribe = app.subscribe((store: AppState) => {
         const { accountSelectInProgress, walletSelectDisplayedUI } = store
-        if (accountSelectInProgress === false) {
+        if (!accountSelectInProgress) {
           appUnsubscribe()
           walletSelectDisplayedUI
             ? setTimeout(() => {
