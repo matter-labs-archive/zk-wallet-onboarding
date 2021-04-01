@@ -1,17 +1,17 @@
-import { mobileWalletInstallMessage } from '../content'
 import {
-  WalletModule,
   Helpers,
-  InjectedWithBalanceOptions
-} from '../../../interfaces'
+  InjectedWithBalanceOptions,
+  WalletModule
+} from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import walletIoIcon from '../wallet-icons/icon-wallet-io'
+import walletIoIcon from "../wallet-icons/icon-wallet-io"
 
 function walletIoWallet(options: InjectedWithBalanceOptions): WalletModule {
   const { preferred, label, svg, rpcUrl } = options
 
   return {
-    name: label || 'wallet.io',
+    name: label || "wallet.io",
     svg: svg || walletIoIcon,
     wallet: async (helpers: Helpers) => {
       const { getProviderName, getAddress, getNetwork, getBalance } = helpers
@@ -19,12 +19,11 @@ function walletIoWallet(options: InjectedWithBalanceOptions): WalletModule {
         (window as any).ethereum ||
         ((window as any).web3 && (window as any).web3.currentProvider)
 
-      const isWalleIoWallet =
-        getProviderName(walletIoProvider) === 'wallet.io'
+      const isWalleIoWallet = getProviderName(walletIoProvider) === "wallet.io"
       let createProvider
 
       if (isWalleIoWallet && rpcUrl) {
-        createProvider = (await import('./providerEngine')).default
+        createProvider = (await import("./providerEngine")).default
       }
 
       const provider = createProvider ? createProvider({ rpcUrl }) : null
@@ -64,8 +63,8 @@ function walletIoWallet(options: InjectedWithBalanceOptions): WalletModule {
           : null
       }
     },
-    type: 'injected',
-    link: 'http://wallet.io/',
+    type: "injected",
+    link: "http://wallet.io/",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

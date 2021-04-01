@@ -1,23 +1,45 @@
 {
-  "name": "bnc-onboard",
-  "version": "1.21.0",
-  "description": "Onboard users to web3 by allowing them to select a wallet, get that wallet ready to transact and have access to synced wallet state.",
+  "name": "@matterlabs/zk-wallet-onboarding",
+  "version": "1.21.1",
+  "description": "On\nOnboard zkSync users users to web3 by allowing them to select a wallet, get that wallet ready to transact and have access to synced wallet state. Forked from @bnc-onboard",
   "keywords": [
     "ethereum",
     "web3",
     "blocknative",
-    "wallet"
+    "wallet",
+    "zksync",
+    "matter labs",
+    "forks"
   ],
+  "url": "https://wallet.zksync.io",
   "main": "dist/cjs/onboard.js",
   "module": "dist/esm/onboard.js",
   "typings": "dist/src/onboard.d.ts",
   "files": [
     "dist"
   ],
-  "author": "Aaron Barnard <aaron@blocknative.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blocknative/onboard"
+    "url": "https://github.com/matter-labs-forks/onboard"
+  },
+  "maintainers": [
+    {
+      "name": "Matter Labs",
+      "email": "hello@matter-labs.io",
+      "url": "https://matter-labs.io",
+      "description": "Matter Labs: We are an engineering team passionate about liberty, blockchain, and math."
+    },
+    {
+      "name": "Serge B.",
+      "email": "s.beresnev@matterlabs.dev",
+      "url": "https://zksync.io"
+    }
+  ],
+  "author": {
+    "name": "Aaron Barnard",
+    "email": "<aaron@blocknative.com>",
+    "url": "https://github.com/blocknative/onboard",
+    "description": "With all our respect and gratitude to Blocknative, initial repo we've forked ours from"
   },
   "license": "MIT",
   "devDependencies": {
@@ -42,7 +64,7 @@
     "rollup-plugin-typescript2": "0.21.0",
     "svelte": "^3.12.1",
     "svelte-i18n": "^1.1.2-beta",
-    "typescript": "^3.6.4"
+    "typescript": "^4.2.3"
   },
   "dependencies": {
     "@cvbb/eth-keyring": "^1.1.0",

@@ -1,7 +1,7 @@
-import AirGapedKeyring from '@cvbb/eth-keyring'
-import { Helpers, LatticeOptions, WalletModule } from '../../../interfaces'
-import cobovaultIcon from '../wallet-icons/icon-cobovault.png'
-import cobovaultIcon2x from '../wallet-icons/icon-cobovault@2x.png'
+import AirGapedKeyring from "@cvbb/eth-keyring"
+import { Helpers, LatticeOptions, WalletModule } from "../../../interfaces"
+import cobovaultIcon from "../wallet-icons/icon-cobovault.png"
+import cobovaultIcon2x from "../wallet-icons/icon-cobovault@2x.png"
 
 function cobovault(
   options: LatticeOptions & { networkId: number }
@@ -9,7 +9,7 @@ function cobovault(
   const { appName, rpcUrl, networkId, preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'CoboVault',
+    name: label || "CoboVault",
     svg: svg,
     iconSrc: cobovaultIcon,
     iconSrcSet: iconSrc || cobovaultIcon2x,
@@ -28,7 +28,7 @@ function cobovault(
       return {
         provider,
         interface: {
-          name: 'CoboVault',
+          name: "CoboVault",
           connect: provider.enable,
           disconnect: provider.disconnect,
           address: {
@@ -46,7 +46,7 @@ function cobovault(
         }
       }
     },
-    type: 'hardware',
+    type: "hardware",
     desktop: true,
     mobile: true,
     osExclusions: [],
@@ -65,8 +65,8 @@ async function cobovaultProvider(options: {
     walletName: string
   }) => void
 }) {
-  const EthereumTx = await import('ethereumjs-tx')
-  const { default: createProvider } = await import('./providerEngine')
+  const EthereumTx = await import("ethereumjs-tx")
+  const { default: createProvider } = await import("./providerEngine")
 
   const BASE_PATH = "m/44'/60'/0'/0"
 
@@ -74,7 +74,7 @@ async function cobovaultProvider(options: {
 
   const keyring = AirGapedKeyring.getEmptyKeyring()
 
-  let dPath = ''
+  let dPath = ""
 
   let addressList = Array.from<string>([])
   let enabled = false
@@ -128,7 +128,7 @@ async function cobovaultProvider(options: {
   provider.isCustomPath = isCustomPath
 
   function disconnect() {
-    dPath = ''
+    dPath = ""
     enabled = false
     provider.stop()
   }
@@ -203,9 +203,9 @@ async function cobovaultProvider(options: {
     return new Promise((resolve, reject) => {
       provider.sendAsync(
         {
-          jsonrpc: '2.0',
-          method: 'eth_getBalance',
-          params: [address, 'latest'],
+          jsonrpc: "2.0",
+          method: "eth_getBalance",
+          params: [address, "latest"],
           id: 42
         },
         (e: any, res: any) => {
@@ -236,7 +236,7 @@ async function cobovaultProvider(options: {
         getPrimaryAddress(),
         transaction
       )
-      return `0x${signedTx.serialize().toString('hex')}`
+      return `0x${signedTx.serialize().toString("hex")}`
     } catch (err) {
       throw err
     }

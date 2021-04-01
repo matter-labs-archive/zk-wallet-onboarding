@@ -1,42 +1,42 @@
-import 'regenerator-runtime/runtime'
+import "regenerator-runtime/runtime"
 
-import { get } from 'svelte/store'
+import { get } from "svelte/store"
 
-import Onboard from './views/Onboard.svelte'
-
-import {
-  app,
-  address,
-  network,
-  balance,
-  wallet,
-  state,
-  walletInterface,
-  resetWalletState,
-  initializeStores
-} from './stores'
-
-import { getDeviceInfo } from './utilities'
-import { validateInit, validateConfig } from './validation'
-
-import { version } from '../package.json'
+import { version } from "../package.json"
 
 import {
-  Initialization,
-  AppState,
   API,
+  AppState,
   ConfigOptions,
+  Initialization,
   UserState,
   Wallet
-} from './interfaces'
+} from "./interfaces"
 
-import initializeModules from './modules'
+import initializeModules from "./modules"
+
+import {
+  address,
+  app,
+  balance,
+  initializeStores,
+  network,
+  resetWalletState,
+  state,
+  wallet,
+  walletInterface
+} from "./stores"
+
+import { getDeviceInfo } from "./utilities"
+import { validateConfig, validateInit } from "./validation"
+
+import Onboard from "./views/Onboard.svelte"
 
 let onboard: any
 
 function init(initialization: Initialization): API {
   if (onboard) {
-    console.warn('onboard has already been initialized')
+    console.warn("onboard has already been initialized")
     onboard.$destroy()
   }
 
@@ -50,7 +50,8 @@ function init(initialization: Initialization): API {
     darkMode,
     apiUrl,
     hideBranding,
-    blockPollingInterval = 4000
+    blockPollingInterval = 4000,
+    popupContent
   } = initialization
 
   const { os, browser, isMobile } = getDeviceInfo()
@@ -59,24 +60,11 @@ function init(initialization: Initialization): API {
     networkId,
     initialization.walletSelect,
     initialization.walletCheck,
-    isMobile
+    isMobile,
+    popupContent
   )
 
-  let displayBranding: boolean
-
-  if (dappId) {
-    if (hideBranding !== false) {
-      displayBranding = false
-    } else {
-      displayBranding = true
-    }
-  } else {
-    if (hideBranding !== true) {
-      displayBranding = true
-    } else {
-      displayBranding = false
-    }
-  }
+  const displayBranding = !hideBranding
 
   app.update((store: AppState) => ({
     ...store,
@@ -145,7 +133,7 @@ function init(initialization: Initialization): API {
         ...store,
         walletSelectInProgress: true,
         autoSelectWallet:
-          typeof autoSelectWallet === 'string' && autoSelectWallet
+          typeof autoSelectWallet === "string" && autoSelectWallet
       }))
 
       const appUnsubscribe = app.subscribe((store: AppState) => {
@@ -155,7 +143,7 @@ function init(initialization: Initialization): API {
           walletSelectDisplayedUI
         } = store
 
-        if (walletSelectInProgress === false) {
+        if (!walletSelectInProgress) {
           appUnsubscribe()
 
           // timeout for UI transitions if it was displayed
@@ -173,7 +161,7 @@ function init(initialization: Initialization): API {
   function walletCheck(): Promise<boolean> {
     return new Promise(resolve => {
       if (!get(walletInterface)) {
-        throw new Error('walletSelect must be called before walletCheck')
+        throw new Error("walletSelect must be called before walletCheck")
       }
 
       app.update((store: AppState) => ({
@@ -187,7 +175,7 @@ function init(initialization: Initialization): API {
           walletCheckCompleted,
           walletCheckDisplayedUI
         } = store
-        if (walletCheckInProgress === false) {
+        if (!walletCheckInProgress) {
           appUnsubscribe()
           walletCheckDisplayedUI
             ? setTimeout(() => {
@@ -207,7 +195,7 @@ function init(initialization: Initialization): API {
   function accountSelect(): Promise<boolean> {
     return new Promise(resolve => {
       const { type } = get(wallet)
-      if (type !== 'hardware') {
+      if (type !== "hardware") {
         resolve(false)
       }
 
@@ -218,7 +206,7 @@ function init(initialization: Initialization): API {
 
       const appUnsubscribe = app.subscribe((store: AppState) => {
         const { accountSelectInProgress, walletSelectDisplayedUI } = store
-        if (accountSelectInProgress === false) {
+        if (!accountSelectInProgress) {
           appUnsubscribe()
           walletSelectDisplayedUI
             ? setTimeout(() => {

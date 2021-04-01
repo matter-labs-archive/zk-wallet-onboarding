@@ -1,6 +1,6 @@
-import HDKey from 'hdkey'
-import * as ethUtil from 'ethereumjs-util'
-import * as buffer from 'buffer'
+import * as buffer from "buffer"
+import * as ethUtil from "ethereumjs-util"
+import HDKey from "hdkey"
 
 const { publicToAddress, toChecksumAddress } = ethUtil
 
@@ -17,14 +17,14 @@ export function generateAddresses(
   const { publicKey, chainCode, path } = account
   const hdk = new HDKey()
 
-  hdk.publicKey = new buffer.Buffer(publicKey, 'hex')
-  hdk.chainCode = new buffer.Buffer(chainCode, 'hex')
+  hdk.publicKey = new buffer.Buffer(publicKey, "hex")
+  hdk.chainCode = new buffer.Buffer(chainCode, "hex")
 
   const addresses = []
 
   for (let i = offset; i < numberToGet + offset; i++) {
     const dkey = hdk.deriveChild(i)
-    const address = publicToAddress(dkey.publicKey, true).toString('hex')
+    const address = publicToAddress(dkey.publicKey, true).toString("hex")
 
     addresses.push({
       dPath: `${path}/${i}`,
@@ -36,9 +36,9 @@ export function generateAddresses(
 }
 
 export function isValidPath(path: string) {
-  const parts = path.split('/')
+  const parts = path.split("/")
 
-  if (parts[0] !== 'm') {
+  if (parts[0] !== "m") {
     return false
   }
 

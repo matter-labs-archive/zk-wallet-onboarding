@@ -1,14 +1,14 @@
-import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import hyerpayIcon from '../wallet-icons/icon-hyperpay.png'
-import hyerpayIcon2x from '../wallet-icons/icon-hyperpay@2x.png'
+import hyerpayIcon from "../wallet-icons/icon-hyperpay.png"
+import hyerpayIcon2x from "../wallet-icons/icon-hyperpay@2x.png"
 
 function hyperpay(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'HyperPay',
+    name: label || "HyperPay",
     iconSrc: iconSrc || hyerpayIcon,
     iconSrcSet: iconSrc || hyerpayIcon2x,
     svg,
@@ -22,13 +22,13 @@ function hyperpay(options: CommonWalletOptions): WalletModule {
       return {
         provider,
         interface:
-          provider && getProviderName(provider) === 'HyperPay'
+          provider && getProviderName(provider) === "HyperPay"
             ? createModernProviderInterface(provider)
             : null
       }
     },
-    type: 'injected',
-    link: 'https://www.hyperpay.me/',
+    type: "injected",
+    link: "https://www.hyperpay.me/",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

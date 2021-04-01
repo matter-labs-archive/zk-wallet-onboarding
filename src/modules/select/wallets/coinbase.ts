@@ -1,13 +1,13 @@
-import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import coinbaseIcon from '../wallet-icons/icon-coinbase'
+import coinbaseIcon from "../wallet-icons/icon-coinbase"
 
 function coinbase(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Coinbase',
+    name: label || "Coinbase",
     iconSrc,
     svg: svg || coinbaseIcon,
     wallet: async (helpers: Helpers) => {
@@ -18,13 +18,13 @@ function coinbase(options: CommonWalletOptions): WalletModule {
       return {
         provider,
         interface:
-          provider && getProviderName(provider) === 'Coinbase'
+          provider && getProviderName(provider) === "Coinbase"
             ? createLegacyProviderInterface(provider)
             : null
       }
     },
-    type: 'injected',
-    link: 'https://go.cb-w.com/',
+    type: "injected",
+    link: "https://go.cb-w.com/",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

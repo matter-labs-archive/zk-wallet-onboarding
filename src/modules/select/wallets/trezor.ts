@@ -1,5 +1,5 @@
-import { TrezorOptions, WalletModule, Helpers } from '../../../interfaces'
-import trezorIcon from '../wallet-icons/icon-trezor'
+import { Helpers, TrezorOptions, WalletModule } from "../../../interfaces"
+import trezorIcon from "../wallet-icons/icon-trezor"
 
 function trezor(options: TrezorOptions & { networkId: number }): WalletModule {
   const {
@@ -14,7 +14,7 @@ function trezor(options: TrezorOptions & { networkId: number }): WalletModule {
   } = options
 
   return {
-    name: label || 'Trezor',
+    name: label || "Trezor",
     svg: svg || trezorIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
@@ -33,7 +33,7 @@ function trezor(options: TrezorOptions & { networkId: number }): WalletModule {
       return {
         provider,
         interface: {
-          name: 'Trezor',
+          name: "Trezor",
           connect: provider.enable,
           disconnect: provider.disconnect,
           address: {
@@ -51,10 +51,10 @@ function trezor(options: TrezorOptions & { networkId: number }): WalletModule {
         }
       }
     },
-    type: 'hardware',
+    type: "hardware",
     desktop: true,
     mobile: true,
-    osExclusions: ['iOS'],
+    osExclusions: ["iOS"],
     preferred
   }
 }
@@ -71,11 +71,11 @@ async function trezorProvider(options: {
     walletName: string
   }) => void
 }) {
-  const TrezorConnectLibrary = await import('trezor-connect')
-  const EthereumTx = await import('ethereumjs-tx')
-  const ethUtil = await import('ethereumjs-util')
-  const { default: createProvider } = await import('./providerEngine')
-  const { generateAddresses, isValidPath } = await import('./hd-wallet')
+  const TrezorConnectLibrary = await import("trezor-connect")
+  const EthereumTx = await import("ethereumjs-tx")
+  const ethUtil = await import("ethereumjs-util")
+  const { default: createProvider } = await import("./providerEngine")
+  const { generateAddresses, isValidPath } = await import("./hd-wallet")
 
   const { default: TrezorConnect, DEVICE_EVENT, DEVICE } = TrezorConnectLibrary
 
@@ -91,7 +91,7 @@ async function trezorProvider(options: {
     resetWalletState
   } = options
 
-  let dPath = ''
+  let dPath = ""
 
   let addressToPath = new Map()
   let enabled = false
@@ -143,7 +143,7 @@ async function trezorProvider(options: {
   TrezorConnect.on(DEVICE_EVENT, (event: any) => {
     if (event.type === DEVICE.DISCONNECT) {
       provider.stop()
-      resetWalletState({ disconnected: true, walletName: 'Trezor' })
+      resetWalletState({ disconnected: true, walletName: "Trezor" })
     }
   })
 
@@ -161,7 +161,7 @@ async function trezorProvider(options: {
   provider.isCustomPath = isCustomPath
 
   function disconnect() {
-    dPath = ''
+    dPath = ""
     addressToPath = new Map()
     enabled = false
     provider.stop()
@@ -244,13 +244,13 @@ async function trezorProvider(options: {
 
   async function getPublicKey() {
     if (!dPath) {
-      throw new Error('a derivation path is needed to get the public key')
+      throw new Error("a derivation path is needed to get the public key")
     }
 
     try {
       const result = await TrezorConnect.getPublicKey({
         path: dPath,
-        coin: 'eth'
+        coin: "eth"
       })
 
       if (!result.success) {
@@ -265,7 +265,7 @@ async function trezorProvider(options: {
 
       return account
     } catch (error) {
-      throw new Error('There was an error accessing your Trezor accounts.')
+      throw new Error("There was an error accessing your Trezor accounts.")
     }
   }
 
@@ -287,7 +287,7 @@ async function trezorProvider(options: {
       return addresses()
     }
 
-    if (dPath === '') {
+    if (dPath === "") {
       dPath = TREZOR_DEFAULT_PATH
     }
 
@@ -324,9 +324,9 @@ async function trezorProvider(options: {
     return new Promise((resolve, reject) => {
       provider.sendAsync(
         {
-          jsonrpc: '2.0',
-          method: 'eth_getBalance',
-          params: [address, 'latest'],
+          jsonrpc: "2.0",
+          method: "eth_getBalance",
+          params: [address, "latest"],
           id: 42
         },
         (e: any, res: any) => {
@@ -353,8 +353,8 @@ async function trezorProvider(options: {
         gasPrice,
         gasLimit: gas,
         to,
-        value: value || '',
-        data: data || '',
+        value: value || "",
+        data: data || "",
         chainId: networkId
       }
     })
@@ -382,7 +382,7 @@ async function trezorProvider(options: {
     transaction.r = signature.r
     transaction.s = signature.s
 
-    return `0x${transaction.serialize().toString('hex')}`
+    return `0x${transaction.serialize().toString("hex")}`
   }
 
   async function signMessage(message: { data: string }): Promise<string> {
@@ -400,7 +400,7 @@ async function trezorProvider(options: {
       }).then((response: any) => {
         if (response.success) {
           if (response.payload.address !== ethUtil.toChecksumAddress(address)) {
-            reject(new Error('signature doesnt match the right address'))
+            reject(new Error("signature doesnt match the right address"))
           }
           const signature = `0x${response.payload.signature}`
           resolve(signature)
@@ -408,7 +408,7 @@ async function trezorProvider(options: {
           reject(
             new Error(
               (response.payload && response.payload.error) ||
-                'There was an error signing a message'
+                "There was an error signing a message"
             )
           )
         }

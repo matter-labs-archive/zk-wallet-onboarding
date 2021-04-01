@@ -1,18 +1,18 @@
-import { mobileWalletInstallMessage } from '../content'
 import {
-  WalletModule,
   Helpers,
-  InjectedWithBalanceOptions
-} from '../../../interfaces'
+  InjectedWithBalanceOptions,
+  WalletModule
+} from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import mykeyIcon from '../wallet-icons/icon-mykey.png'
-import mykeyIcon2x from '../wallet-icons/icon-mykey@2x.png'
+import mykeyIcon from "../wallet-icons/icon-mykey.png"
+import mykeyIcon2x from "../wallet-icons/icon-mykey@2x.png"
 
 function mykey(options: InjectedWithBalanceOptions): WalletModule {
   const { preferred, label, iconSrc, svg, rpcUrl } = options
 
   return {
-    name: label || 'MYKEY',
+    name: label || "MYKEY",
     iconSrc: iconSrc || mykeyIcon,
     iconSrcSet: iconSrc || mykeyIcon2x,
     svg,
@@ -22,11 +22,11 @@ function mykey(options: InjectedWithBalanceOptions): WalletModule {
         (window as any).ethereum ||
         ((window as any).web3 && (window as any).web3.currentProvider)
 
-      const isMyKey = getProviderName(myKeyProvider) === 'MYKEY'
+      const isMyKey = getProviderName(myKeyProvider) === "MYKEY"
       let createProvider
 
       if (isMyKey && rpcUrl) {
-        createProvider = (await import('./providerEngine')).default
+        createProvider = (await import("./providerEngine")).default
       }
 
       const provider = createProvider ? createProvider({ rpcUrl }) : null
@@ -66,8 +66,8 @@ function mykey(options: InjectedWithBalanceOptions): WalletModule {
           : null
       }
     },
-    type: 'injected',
-    link: 'https://mykey.org/download',
+    type: "injected",
+    link: "https://mykey.org/download",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

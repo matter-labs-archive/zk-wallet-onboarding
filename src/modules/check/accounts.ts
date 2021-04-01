@@ -1,9 +1,9 @@
 import {
-  WalletCheckModule,
   StateAndHelpers,
-  WalletCheckModal
-} from '../../interfaces'
-import { usbIcon } from './icons'
+  WalletCheckModal,
+  WalletCheckModule
+} from "../../interfaces"
+import { usbIcon } from "./icons"
 
 type AccountsAndBalances = Array<{ balance: string; address: string }>
 
@@ -33,7 +33,7 @@ function accountSelect(
     const { wallet, BigNumber } = stateAndHelpers
     const { provider, type } = wallet
 
-    if (type === 'hardware' && !completed && !provider.isCustomPath()) {
+    if (type === "hardware" && !completed && !provider.isCustomPath()) {
       if (accountsAndBalances.length === 0) {
         loadingAccounts = true
         const accounts = await provider.enable()
@@ -53,7 +53,7 @@ function accountSelect(
       }
 
       const accountSelect = () => {
-        const accountIndex = (document as any).getElementById('account-select')
+        const accountIndex = (document as any).getElementById("account-select")
           .selectedIndex
 
         provider.setPrimaryAccount(accountsAndBalances[accountIndex].address)
@@ -62,11 +62,11 @@ function accountSelect(
       ;(window as any).loadMoreAccounts = loadMoreAccounts
 
       return {
-        heading: heading || 'Select Account',
+        heading: heading || "Select Account",
         description:
           description ||
           `Please select which account you would like to use with this Dapp:`,
-        eventCode: 'accountSelect',
+        eventCode: "accountSelect",
         html: loadingAccounts
           ? `<div class="bn-onboard-custom bn-onboard-loading">
               <div class="bn-onboard-loading-first"></div>
@@ -83,9 +83,9 @@ function accountSelect(
                   `<option>${account.address} --- ${
                     account.balance != null
                       ? new BigNumber(account.balance)
-                          .div('1000000000000000000')
+                          .div("1000000000000000000")
                           .toFixed(3)
-                      : '0'
+                      : "0"
                   } ETH</option>`
               )}
             </select>
@@ -97,7 +97,7 @@ function accountSelect(
             deleteWindowProperties()
             completed = true
           },
-          text: 'Done'
+          text: "Done"
         },
         icon: icon || usbIcon
       }

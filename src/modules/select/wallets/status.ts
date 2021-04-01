@@ -1,13 +1,13 @@
-import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { extensionInstallMessage } from "../content"
 
-import statusIcon from '../wallet-icons/icon-status'
+import statusIcon from "../wallet-icons/icon-status"
 
 function status(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Status',
+    name: label || "Status",
     iconSrc: iconSrc,
     iconSrcSet: iconSrc,
     svg: svg || statusIcon,
@@ -20,12 +20,12 @@ function status(options: CommonWalletOptions): WalletModule {
       return {
         provider,
         interface:
-          provider && getProviderName(provider) === 'Status'
+          provider && getProviderName(provider) === "Status"
             ? {
                 connect: () =>
                   provider
                     .request({
-                      method: 'eth_requestAccounts'
+                      method: "eth_requestAccounts"
                     })
                     .then(() => (accountsApproved = true)),
                 address: {
@@ -43,13 +43,13 @@ function status(options: CommonWalletOptions): WalletModule {
                 network: {
                   get: () => getNetwork(provider)
                 },
-                name: 'Status'
+                name: "Status"
               }
             : null
       }
     },
-    type: 'injected',
-    link: 'https://status.im/',
+    type: "injected",
+    link: "https://status.im/",
     installMessage: extensionInstallMessage,
     mobile: true,
     preferred

@@ -1,5 +1,5 @@
-import { WalletCheckModal, StateAndHelpers, Connect } from '../../interfaces'
-import { usbIcon } from './icons'
+import { Connect, StateAndHelpers, WalletCheckModal } from "../../interfaces"
+import { usbIcon } from "./icons"
 
 interface DerivationPaths {
   [key: string]: Array<{ path?: string; label: string }>
@@ -7,11 +7,11 @@ interface DerivationPaths {
 
 const derivationPaths: DerivationPaths = {
   Ledger: [
-    { path: `m/44'/60'/0'`, label: 'Ethereum' },
-    { path: `m/44'/60'`, label: 'Ethereum Ledger Live' }
+    { path: `m/44'/60'/0'`, label: "Ethereum" },
+    { path: `m/44'/60'`, label: "Ethereum Ledger Live" }
   ],
-  Trezor: [{ path: `m/44'/60'/0'/0`, label: 'Ethereum' }],
-  Lattice: [{ path: `m/44'/60'/0'/0`, label: 'Ethereum' }]
+  Trezor: [{ path: `m/44'/60'/0'/0`, label: "Ethereum" }],
+  Lattice: [{ path: `m/44'/60'/0'/0`, label: "Ethereum" }]
 }
 
 const styles = `
@@ -74,16 +74,16 @@ function derivationPath(
   const state = {
     completed: false,
     showCustomInput: false,
-    dPath: '',
+    dPath: "",
     loading: false,
-    error: ''
+    error: ""
   }
 
   const customInputHtmlString = (error?: string) => {
     return `
       <input 
         id="custom-derivation-input" 
-        style="${baseStyles + selectedStyles + (error ? errorStyles : '')}" 
+        style="${baseStyles + selectedStyles + (error ? errorStyles : "")}" 
         type="text" 
         value="${state.dPath}"
         placeholder="custom derivation path" 
@@ -103,13 +103,13 @@ function derivationPath(
                 buttonStyles +
                 (state.dPath === path && !state.showCustomInput
                   ? selectedStyles
-                  : '')
+                  : "")
               }" onclick="window.handleDerivationClick(this)" data-path="${path}">
                 ${label} - ${path}
               </button>
             `
           })
-          .join(' ')}
+          .join(" ")}
         ${
           state.showCustomInput
             ? customInputHtmlString(state.error)
@@ -130,7 +130,7 @@ function derivationPath(
             ? `<span style="${msgStyles + errorMsgStyles}">${
                 state.error
               }</span>`
-            : ''
+            : ""
         }
       </div>
     `
@@ -139,9 +139,9 @@ function derivationPath(
   function resetState() {
     state.completed = false
     state.showCustomInput = false
-    state.dPath = ''
+    state.dPath = ""
     state.loading = false
-    state.error = ''
+    state.error = ""
   }
 
   function checkModule(
@@ -149,28 +149,28 @@ function derivationPath(
   ): WalletCheckModal | undefined {
     const { wallet } = stateAndHelpers
 
-    if (wallet && wallet.type === 'hardware' && !state.completed) {
+    if (wallet && wallet.type === "hardware" && !state.completed) {
       const handleCustomInput = () => {
         const input = document.getElementById(
-          'custom-derivation-input'
+          "custom-derivation-input"
         ) as HTMLInputElement
 
         state.dPath = input && input.value
-        state.error = ''
+        state.error = ""
       }
 
       const handleDerivationClick = (button: any) => {
         const selectedPath = button.dataset.path
 
-        if (selectedPath === 'custom') {
+        if (selectedPath === "custom") {
           state.showCustomInput = true
 
           setTimeout(() => {
-            const input = document.getElementById('custom-derivation-input')
+            const input = document.getElementById("custom-derivation-input")
             input && input.focus()
           }, 100)
         } else {
-          state.error = ''
+          state.error = ""
           state.showCustomInput = false
           state.dPath = selectedPath
         }
@@ -185,16 +185,16 @@ function derivationPath(
 
       return (
         derivationPaths[wallet.name as string] && {
-          heading: heading || 'Hardware Wallet Connect',
+          heading: heading || "Hardware Wallet Connect",
           description:
             description ||
             `Make sure your ${wallet.name} is plugged in, ${
-              wallet.name === 'Ledger' ? 'and the Ethereum app is open, ' : ''
+              wallet.name === "Ledger" ? "and the Ethereum app is open, " : ""
             }then select a derivation path to connect your accounts:`,
-          eventCode: 'derivationPath',
+          eventCode: "derivationPath",
           html: derivationSelectHtmlString(wallet.name as string),
           button: {
-            text: 'Connect',
+            text: "Connect",
             onclick: async () => {
               state.loading = true
               const path =
@@ -216,7 +216,7 @@ function derivationPath(
                 return
               }
 
-              state.error = ''
+              state.error = ""
 
               if (wallet.connect) {
                 ;(wallet.connect as Connect)()

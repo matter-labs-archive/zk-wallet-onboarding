@@ -1,17 +1,17 @@
-import { mobileWalletInstallMessage } from '../content'
 import {
-  WalletModule,
   Helpers,
-  InjectedWithBalanceOptions
-} from '../../../interfaces'
+  InjectedWithBalanceOptions,
+  WalletModule
+} from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import huobiwalletIcon from '../wallet-icons/icon-huobiwallet'
+import huobiwalletIcon from "../wallet-icons/icon-huobiwallet"
 
 function huobiwallet(options: InjectedWithBalanceOptions): WalletModule {
   const { preferred, label, svg, rpcUrl } = options
 
   return {
-    name: label || 'Huobi Wallet',
+    name: label || "Huobi Wallet",
     svg: svg || huobiwalletIcon,
     wallet: async (helpers: Helpers) => {
       const { getProviderName, getAddress, getNetwork, getBalance } = helpers
@@ -20,11 +20,11 @@ function huobiwallet(options: InjectedWithBalanceOptions): WalletModule {
         ((window as any).web3 && (window as any).web3.currentProvider)
 
       const isHuobiWallet =
-        getProviderName(huobiwalletProvider) === 'huobiwallet'
+        getProviderName(huobiwalletProvider) === "huobiwallet"
       let createProvider
 
       if (isHuobiWallet && rpcUrl) {
-        createProvider = (await import('./providerEngine')).default
+        createProvider = (await import("./providerEngine")).default
       }
 
       const provider = createProvider ? createProvider({ rpcUrl }) : null
@@ -64,8 +64,8 @@ function huobiwallet(options: InjectedWithBalanceOptions): WalletModule {
           : null
       }
     },
-    type: 'injected',
-    link: 'https://www.huobiwallet.com',
+    type: "injected",
+    link: "https://www.huobiwallet.com",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

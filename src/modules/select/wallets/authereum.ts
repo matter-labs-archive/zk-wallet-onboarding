@@ -1,6 +1,6 @@
-import authereumIcon from '../wallet-icons/icon-authereum.png'
-import { networkName, openLink } from '../../../utilities'
-import { WalletModule, AuthereumOptions } from '../../../interfaces'
+import { AuthereumOptions, WalletModule } from "../../../interfaces"
+import { networkName, openLink } from "../../../utilities"
+import authereumIcon from "../wallet-icons/icon-authereum.png"
 
 function authereum(
   options: AuthereumOptions & { networkId: number }
@@ -8,11 +8,11 @@ function authereum(
   const { networkId, preferred, label, iconSrc, svg, ...otherOptions } = options
 
   return {
-    name: label || 'Authereum',
+    name: label || "Authereum",
     svg,
     iconSrc: iconSrc || authereumIcon,
     wallet: async () => {
-      const { default: Authereum } = await import('authereum')
+      const { default: Authereum } = await import("authereum")
       const instance = new Authereum({
         networkName: networkName(networkId),
         blockedPopupRedirect: false,
@@ -25,7 +25,7 @@ function authereum(
         provider,
         instance,
         interface: {
-          name: 'Authereum',
+          name: "Authereum",
           connect: () => provider.enable(),
           disconnect: () => {
             instance.destroy()
@@ -45,13 +45,13 @@ function authereum(
           dashboard: () =>
             openLink(
               `https://${
-                networkId !== 1 ? `${networkName(networkId)}.` : ''
+                networkId !== 1 ? `${networkName(networkId)}.` : ""
               }authereum.com/`
             )
         }
       }
     },
-    type: 'sdk',
+    type: "sdk",
     desktop: true,
     mobile: true,
     preferred

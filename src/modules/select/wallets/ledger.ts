@@ -1,6 +1,6 @@
-import { LedgerOptions, WalletModule, Helpers } from '../../../interfaces'
+import { Helpers, LedgerOptions, WalletModule } from "../../../interfaces"
 
-import ledgerIcon from '../wallet-icons/icon-ledger'
+import ledgerIcon from "../wallet-icons/icon-ledger"
 
 const LEDGER_LIVE_PATH = `m/44'/60'`
 const ACCOUNTS_TO_GET = 5
@@ -17,7 +17,7 @@ function ledger(options: LedgerOptions & { networkId: number }): WalletModule {
   } = options
 
   return {
-    name: label || 'Ledger',
+    name: label || "Ledger",
     svg: svg || ledgerIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
@@ -35,7 +35,7 @@ function ledger(options: LedgerOptions & { networkId: number }): WalletModule {
       return {
         provider,
         interface: {
-          name: 'Ledger',
+          name: "Ledger",
           connect: provider.enable,
           disconnect: provider.disconnect,
           address: {
@@ -53,10 +53,10 @@ function ledger(options: LedgerOptions & { networkId: number }): WalletModule {
         }
       }
     },
-    type: 'hardware',
+    type: "hardware",
     desktop: true,
     mobile: true,
-    osExclusions: ['iOS'],
+    osExclusions: ["iOS"],
     preferred
   }
 }
@@ -72,14 +72,14 @@ async function ledgerProvider(options: {
     walletName: string
   }) => void
 }) {
-  const { default: createProvider } = await import('./providerEngine')
-  const { generateAddresses, isValidPath } = await import('./hd-wallet')
-  const { default: TransportU2F } = await import('@ledgerhq/hw-transport-u2f')
-  const { default: Eth } = await import('@ledgerhq/hw-app-eth')
+  const { default: createProvider } = await import("./providerEngine")
+  const { generateAddresses, isValidPath } = await import("./hd-wallet")
+  const { default: TransportU2F } = await import("@ledgerhq/hw-transport-u2f")
+  const { default: Eth } = await import("@ledgerhq/hw-app-eth")
 
-  const EthereumTx = await import('ethereumjs-tx')
-  const ethUtil = await import('ethereumjs-util')
-  const buffer = await import('buffer')
+  const EthereumTx = await import("ethereumjs-tx")
+  const ethUtil = await import("ethereumjs-util")
+  const buffer = await import("buffer")
 
   const {
     networkId,
@@ -90,7 +90,7 @@ async function ledgerProvider(options: {
     resetWalletState
   } = options
 
-  let dPath = ''
+  let dPath = ""
   let addressToPath = new Map()
   let enabled = false
   let customPath = false
@@ -152,7 +152,7 @@ async function ledgerProvider(options: {
   function disconnect() {
     transport && transport.close()
     provider.stop()
-    resetWalletState({ disconnected: true, walletName: 'Ledger' })
+    resetWalletState({ disconnected: true, walletName: "Ledger" })
   }
 
   async function setPath(path: string, custom?: boolean) {
@@ -193,7 +193,7 @@ async function ledgerProvider(options: {
 
       const observer = {
         next: (event: any) => {
-          if (event.type === 'remove') {
+          if (event.type === "remove") {
             disconnect()
           }
         },
@@ -205,7 +205,7 @@ async function ledgerProvider(options: {
         ? LedgerTransport.listen(observer)
         : TransportU2F.listen(observer)
     } catch (error) {
-      throw new Error('Error connecting to Ledger wallet')
+      throw new Error("Error connecting to Ledger wallet")
     }
   }
 
@@ -243,7 +243,7 @@ async function ledgerProvider(options: {
 
   async function getPublicKey() {
     if (!dPath) {
-      throw new Error('a derivation path is needed to get the public key')
+      throw new Error("a derivation path is needed to get the public key")
     }
 
     if (!eth) {
@@ -262,7 +262,7 @@ async function ledgerProvider(options: {
 
       return account
     } catch (error) {
-      throw new Error('There was a problem accessing your Ledger accounts.')
+      throw new Error("There was a problem accessing your Ledger accounts.")
     }
   }
 
@@ -288,7 +288,7 @@ async function ledgerProvider(options: {
       await createTransport()
     }
 
-    if (dPath === '') {
+    if (dPath === "") {
       dPath = LEDGER_LIVE_PATH
     }
 
@@ -342,9 +342,9 @@ async function ledgerProvider(options: {
     return new Promise((resolve, reject) => {
       provider.sendAsync(
         {
-          jsonrpc: '2.0',
-          method: 'eth_getBalance',
-          params: [address, 'latest'],
+          jsonrpc: "2.0",
+          method: "eth_getBalance",
+          params: [address, "latest"],
           id: 42
         },
         (e: any, res: any) => {
@@ -375,14 +375,14 @@ async function ledgerProvider(options: {
 
       const ledgerResult = await eth.signTransaction(
         path,
-        transaction.serialize().toString('hex')
+        transaction.serialize().toString("hex")
       )
 
-      transaction.v = buffer.Buffer.from(ledgerResult.v, 'hex')
-      transaction.r = buffer.Buffer.from(ledgerResult.r, 'hex')
-      transaction.s = buffer.Buffer.from(ledgerResult.s, 'hex')
+      transaction.v = buffer.Buffer.from(ledgerResult.v, "hex")
+      transaction.r = buffer.Buffer.from(ledgerResult.r, "hex")
+      transaction.s = buffer.Buffer.from(ledgerResult.s, "hex")
 
-      return `0x${transaction.serialize().toString('hex')}`
+      return `0x${transaction.serialize().toString("hex")}`
     } catch (error) {
       throw error
     }
@@ -398,11 +398,11 @@ async function ledgerProvider(options: {
     return eth
       .signPersonalMessage(path, ethUtil.stripHexPrefix(message.data))
       .then((result: any) => {
-        let v = (result['v'] - 27).toString(16)
+        let v = (result["v"] - 27).toString(16)
         if (v.length < 2) {
-          v = '0' + v
+          v = "0" + v
         }
-        return `0x${result['r']}${result['s']}${v}`
+        return `0x${result["r"]}${result["s"]}${v}`
       })
   }
 

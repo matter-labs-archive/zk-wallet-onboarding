@@ -1,36 +1,20 @@
 <script lang="ts">
-  import { get } from 'svelte/store'
-  import { onDestroy, onMount } from 'svelte'
-  import { fade } from 'svelte/transition'
-  import BigNumber from 'bignumber.js'
+  import BigNumber from "bignumber.js"
+  import {onDestroy, onMount} from "svelte"
+  import {get} from "svelte/store"
+  import {fade} from "svelte/transition"
 
-  import { getBlocknative } from '../services'
-  import {
-    app,
-    state,
-    stateSyncStatus,
-    walletInterface,
-    wallet,
-    address,
-    network,
-    balance
-  } from '../stores'
-  import { validateModal, validateWalletCheckModule } from '../validation'
-  import { isPromise } from '../utilities'
+  import Modal from "../components/Modal.svelte"
+  import ModalHeader from "../components/ModalHeader.svelte"
+  import Button from "../elements/Button.svelte"
+  import Spinner from "../elements/Spinner.svelte"
 
-  import Modal from '../components/Modal.svelte'
-  import ModalHeader from '../components/ModalHeader.svelte'
-  import Button from '../elements/Button.svelte'
-  import Spinner from '../elements/Spinner.svelte'
+  import {AppState, Connect, UserState, WalletCheckModal, WalletCheckModule, WalletSelectFunction} from "../interfaces"
 
-  import {
-    WalletCheckModule,
-    WalletSelectFunction,
-    AppState,
-    WalletCheckModal,
-    UserState,
-    Connect
-  } from '../interfaces'
+  import {getBlocknative} from "../services"
+  import {address, app, balance, network, state, stateSyncStatus, wallet, walletInterface} from "../stores"
+  import {isPromise} from "../utilities"
+  import {validateModal, validateWalletCheckModule} from "../validation"
 
   export let walletSelect: WalletSelectFunction
   export let modules: WalletCheckModule[] | undefined
@@ -72,17 +56,18 @@
 
   onMount(() => {
     originalOverflowValue = window.document.body.style.overflow
-    window.document.body.style.overflow = 'hidden'
-    window.addEventListener('scroll', lockScroll)
+    window.document.body.style.overflow = "hidden"
+    window.addEventListener("scroll", lockScroll)
   })
 
   onDestroy(() => {
     unsubscribeCurrentState()
-    window.removeEventListener('scroll', lockScroll)
+    window.removeEventListener("scroll", lockScroll)
     window.document.body.style.overflow = originalOverflowValue
   })
 
-  async function renderModule() {
+  async function renderModule()
+  {
     checkingModule = true
 
     let checkModules = modules || get(app).checkModules
@@ -90,10 +75,10 @@
     if (isPromise(checkModules)) {
       checkModules = await checkModules
       checkModules.forEach(validateWalletCheckModule)
-      app.update(store => ({ ...store, checkModules }))
+      app.update(store => ({...store, checkModules}))
     }
 
-    const currentWallet = get(wallet).name
+    get(wallet).name;
 
     // loop through and run each module to check if a modal needs to be shown
     runModules(checkModules).then(
@@ -104,10 +89,10 @@
         // no result then user has passed all conditions
         if (!result.modal) {
           blocknative &&
-            blocknative.event({
-              categoryCode: 'onboard',
-              eventCode: 'onboardingCompleted'
-            })
+          blocknative.event({
+            categoryCode: "onboard",
+            eventCode: "onboardingCompleted"
+          })
 
           handleExit(true)
 
@@ -115,17 +100,17 @@
         }
 
         // set that UI has been displayed, so that timeouts can be added for UI transitions
-        app.update(store => ({ ...store, walletCheckDisplayedUI: true }))
+        app.update(store => ({...store, walletCheckDisplayedUI: true}))
 
         activeModal = result.modal
         currentModule = result.module
 
         // log the event code for this module
         blocknative &&
-          blocknative.event({
-            eventCode: activeModal.eventCode,
-            categoryCode: 'onboard'
-          })
+        blocknative.event({
+          eventCode: activeModal.eventCode,
+          categoryCode: "onboard"
+        })
 
         // run any actions that module require as part of this step
         if (activeModal.action) {
@@ -152,21 +137,22 @@
     )
   }
 
+
   function doAction() {
     actionResolved = false
     loading = true
 
     activeModal &&
-      activeModal.action &&
-      (activeModal.action as Connect)()
-        .then(() => {
-          actionResolved = true
-          loading = false
-        })
-        .catch((err: { message: string }) => {
-          errorMsg = err.message
-          loading = false
-        })
+    activeModal.action &&
+    (activeModal.action as Connect)()
+      .then(() => {
+        actionResolved = true
+        loading = false
+      })
+      .catch((err: { message: string }) => {
+        errorMsg = err.message
+        loading = false
+      })
   }
 
   function handleExit(completed?: boolean) {
@@ -181,7 +167,7 @@
 
   function resetState() {
     clearInterval(pollingInterval)
-    errorMsg = ''
+    errorMsg = ""
     actionResolved = undefined
     activeModal = undefined
     currentModule = undefined
@@ -203,7 +189,7 @@
           }
         }
 
-        return resolve({ modal: undefined, module: undefined })
+        return resolve({modal: undefined, module: undefined})
       }
     )
   }
@@ -211,9 +197,7 @@
   async function invalidState(
     module: WalletCheckModule,
     state: UserState
-  ): Promise<
-    { module: WalletCheckModule; modal: WalletCheckModal } | undefined
-  > {
+  ): Promise<{ module: WalletCheckModule; modal: WalletCheckModal } | undefined> {
     const result = module({
       ...state,
       BigNumber,
@@ -246,7 +230,7 @@
             loadingModal = false
             completed = true
             modal = res
-            resolve()
+            resolve("")
           })
 
           setTimeout(() => {
@@ -275,60 +259,61 @@
 </script>
 
 <style>
-  /* .bn-onboard-prepare-description */
-  p {
-    font-size: 0.889em;
-    font-family: inherit;
-    margin: 1em 0;
-  }
+    /* .bn-onboard-prepare-description */
+    p {
+        font-size: 0.889em;
+        font-family: inherit;
+        margin: 1em 0;
+    }
 
-  /* .bn-onboard-prepare-error */
-  span {
-    color: #e2504a;
-    font-size: 0.889em;
-    font-family: inherit;
-    display: block;
-    margin-bottom: 0.75em;
-    padding: 0.5em;
-    border: 1px solid #e2504a;
-    border-radius: 5px;
-  }
+    /* .bn-onboard-prepare-error */
+    span {
+        color: #e2504a;
+        font-size: 0.889em;
+        font-family: inherit;
+        display: block;
+        margin-bottom: 0.75em;
+        padding: 0.5em;
+        border: 1px solid #e2504a;
+        border-radius: 5px;
+    }
 
-  /* .bn-onboard-prepare-button-container */
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 2.5rem;
-    position: relative;
-  }
+    /* .bn-onboard-prepare-button-container */
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 2.5rem;
+        position: relative;
+    }
 
-  section {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
+    section {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
 </style>
 
 {#if loadingModal}
   <Modal closeable={false}>
-    <Spinner description="Checking wallet" />
+    <Spinner description="Checking wallet"/>
   </Modal>
 {/if}
 
 {#if activeModal}
   <Modal closeModal={() => handleExit()}>
-    <ModalHeader icon={activeModal.icon} heading={activeModal.heading} />
+    <ModalHeader icon={activeModal.icon} heading={activeModal.heading}/>
     <p class="bn-onboard-custom bn-onboard-prepare-description">
       {@html activeModal.description}
     </p>
     {#if errorMsg}
       <span
-        class:bn-onboard-dark-mode-background={$app.darkMode}
-        class="bn-onboard-custom bn-onboard-prepare-error"
-        in:fade>
+          class:bn-onboard-dark-mode-background={$app.darkMode}
+          class="bn-onboard-custom bn-onboard-prepare-error"
+          in:fade
+      >
         {errorMsg}
       </span>
     {/if}
@@ -350,10 +335,10 @@
           Try Again
         </Button>
       {:else}
-        <div />
+        <div></div>
       {/if}
       {#if loading}
-        <Spinner />
+        <Spinner/>
       {/if}
       <Button position="right" onclick={() => handleExit(false)}>
         Dismiss

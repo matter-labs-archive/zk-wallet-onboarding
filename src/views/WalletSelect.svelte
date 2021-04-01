@@ -1,39 +1,40 @@
 <script lang="ts">
-  import BigNumber from 'bignumber.js'
-  import { get } from 'svelte/store'
-  import { fade } from 'svelte/transition'
-  import { onDestroy, onMount } from 'svelte'
+  import BigNumber from "bignumber.js"
+  import {onDestroy, onMount} from "svelte"
+  import {get} from "svelte/store"
+  import {fade} from "svelte/transition"
 
-  import { app, walletInterface, wallet, resetWalletState } from '../stores'
+  import Modal from "../components/Modal.svelte"
+  import ModalHeader from "../components/ModalHeader.svelte"
+  import SelectedWallet from "../components/SelectedWallet.svelte"
+  import Wallets from "../components/Wallets.svelte"
+  import Button from "../elements/Button.svelte"
+  import walletIcon from "../elements/walletIcon"
 
-  import Modal from '../components/Modal.svelte'
-  import ModalHeader from '../components/ModalHeader.svelte'
-  import Wallets from '../components/Wallets.svelte'
-  import SelectedWallet from '../components/SelectedWallet.svelte'
-  import Button from '../elements/Button.svelte'
-  import walletIcon from '../elements/walletIcon'
+  import {app, resetWalletState, wallet, walletInterface} from "../stores"
 
-  import {
-    getProviderName,
-    createLegacyProviderInterface,
-    createModernProviderInterface,
-    getAddress,
-    getBalance,
-    getNetwork,
-    networkName
-  } from '../utilities'
-
+  import {createLegacyProviderInterface, createModernProviderInterface, getAddress, getBalance, getNetwork, getProviderName, networkName} from "../utilities"
   import {
     WalletSelectModalData,
     WalletModule,
     WalletSelectModule,
-    WalletInterface
-  } from '../interfaces'
+    WalletInterface,
+    PopupContentInterface
+  } from "../interfaces"
+
+  const defaultPopupContent: PopupContentInterface = {
+    dismiss: "Dismiss",
+    teaser: "Can't find your wallet?",
+    fullHtml:
+      `If your wallet is not on the list yet, it is nonetheless <a href="https://zksync.io/faq/wallets.html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message" target="_blank">possible to withdrawal your funds to L1</a>.
+ <span class="bn-call-to-action-line">To request a withdrawal, send your zkSync address to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable" href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span> In the future, this functionality will be automated.`,
+  }
 
   export let module: WalletSelectModule = {
-    heading: '',
-    description: '',
-    wallets: []
+    heading: "",
+    description: "",
+    wallets: [],
+    popupContent: defaultPopupContent
   }
 
   let modalData: WalletSelectModalData | null
@@ -43,8 +44,8 @@
 
   let selectedWalletModule: WalletModule
 
-  const { mobileDevice, os } = get(app)
-  let { heading, description, explanation, wallets } = module
+  const {mobileDevice, os} = get(app)
+  let {heading, description, explanation, wallets, popupContent} = module
 
   let primaryWallets: WalletModule[]
   let secondaryWallets: WalletModule[] | undefined
@@ -62,12 +63,12 @@
 
   onMount(() => {
     originalOverflowValue = window.document.body.style.overflow
-    window.document.body.style.overflow = 'hidden'
-    window.addEventListener('scroll', lockScroll)
+    window.document.body.style.overflow = "hidden"
+    window.addEventListener("scroll", lockScroll)
   })
 
   onDestroy(() => {
-    window.removeEventListener('scroll', lockScroll)
+    window.removeEventListener("scroll", lockScroll)
     window.document.body.style.overflow = originalOverflowValue
   })
 
@@ -75,12 +76,13 @@
 
   async function renderWalletSelect() {
     const appState = get(app)
+    // noinspection ES6RedundantAwait
     wallets = await wallets
 
     const deviceWallets = (wallets as WalletModule[])
-      .filter(wallet => wallet[mobileDevice ? 'mobile' : 'desktop'])
+      .filter(wallet => wallet[mobileDevice ? "mobile" : "desktop"])
       .filter(wallet => {
-        const { osExclusions = [] } = wallet
+        const {osExclusions = []} = wallet
         return !osExclusions.includes(os.name)
       })
 
@@ -100,7 +102,7 @@
         (m: WalletModule) => m.name === appState.autoSelectWallet
       )
 
-      app.update(store => ({ ...store, autoSelectWallet: '' }))
+      app.update(store => ({...store, autoSelectWallet: ""}))
 
       if (module) {
         handleWalletSelect(module, true)
@@ -113,10 +115,11 @@
       description,
       explanation,
       primaryWallets,
-      secondaryWallets
+      secondaryWallets,
+      popupContent
     }
 
-    app.update(store => ({ ...store, walletSelectDisplayedUI: true }))
+    app.update(store => ({...store, walletSelectDisplayedUI: true}))
   }
 
   async function handleWalletSelect(
@@ -124,20 +127,20 @@
     autoSelected?: boolean
   ) {
     const currentWalletInterface = get(walletInterface)
-    const { browser, os } = get(app)
+    const {browser, os} = get(app)
 
     if (currentWalletInterface && currentWalletInterface.name === module.name) {
-      finish({ completed: true })
+      finish({completed: true})
       return
     }
 
     loadingWallet = module.name
 
     const {
-      provider,
-      interface: selectedWalletInterface,
-      instance
-    } = await module.wallet({
+            provider,
+            interface: selectedWalletInterface,
+            instance
+          } = await module.wallet({
       getProviderName,
       createLegacyProviderInterface,
       createModernProviderInterface,
@@ -173,10 +176,11 @@
           description,
           explanation,
           primaryWallets,
-          secondaryWallets
+          secondaryWallets,
+          popupContent
         }
 
-        app.update(store => ({ ...store, walletSelectDisplayedUI: true }))
+        app.update(store => ({...store, walletSelectDisplayedUI: true}))
       }
 
       return
@@ -199,7 +203,7 @@
       type: module.type
     })
 
-    finish({ completed: true })
+    finish({completed: true})
   }
 
   function finish(options: { completed: boolean }) {
@@ -213,72 +217,72 @@
 </script>
 
 <style>
-  /* .bn-onboard-select-description, .bn-onboard-select-wallet-definition */
-  p {
-    font-size: 0.889em;
-    margin: 1.6em 0 0 0;
-    font-family: inherit;
-  }
+    /* .bn-onboard-select-description, .bn-onboard-select-wallet-definition */
+    p {
+        font-size: 0.889em;
+        margin: 1.6em 0 0 0;
+        font-family: inherit;
+    }
 
-  /* .bn-onboard-select-info-container */
-  div {
-    display: flex;
-    font-size: inherit;
-    font-family: inherit;
-    justify-content: space-between;
-  }
+    /* .bn-onboard-select-info-container */
+    div {
+        display: flex;
+        font-size: inherit;
+        font-family: inherit;
+        justify-content: space-between;
+    }
 
-  /* .bn-onboard-select-wallet-info */
-  div span {
-    color: #4a90e2;
-    font-size: inherit;
-    font-family: inherit;
-    margin-top: 0.66em;
-    cursor: pointer;
-  }
+    /* .bn-onboard-select-wallet-info */
+    div span {
+        color: #4a90e2;
+        font-size: inherit;
+        font-family: inherit;
+        margin-top: 0.66em;
+        cursor: pointer;
+    }
 </style>
 
 {#if modalData}
   <Modal closeModal={() => finish({ completed: false })}>
-    <ModalHeader icon={walletIcon} heading={modalData.heading} />
+    <ModalHeader icon={walletIcon} heading={modalData.heading}/>
     {#if !selectedWalletModule}
       <p class="bn-onboard-custom bn-onboard-select-description">
         {@html modalData.description}
       </p>
       <Wallets
-        {modalData}
-        {handleWalletSelect}
-        {loadingWallet}
-        {showingAllWalletModules}
-        {showAllWallets}
+          {modalData}
+          {handleWalletSelect}
+          {loadingWallet}
+          {showingAllWalletModules}
+          {showAllWallets}
       />
       <div class="bn-onboard-custom bn-onboard-select-info-container">
         <span
-          class="bn-onboard-custom bn-onboard-select-wallet-info"
-          on:click={() => (showWalletDefinition = !showWalletDefinition)}
+            class="bn-onboard-custom bn-onboard-select-wallet-info"
+            on:click={() => (showWalletDefinition = !showWalletDefinition)}
         >
-          What is a wallet?
+              {modalData.popupContent.teaser}
         </span>
         {#if mobileDevice}
-          <Button onclick={() => finish({ completed: false })}>Dismiss</Button>
+          <Button onclick={() => finish({ completed: false })}>{modalData.popupContent.dismiss}</Button>
         {/if}
       </div>
       {#if showWalletDefinition}
         <p
-          in:fade
-          class="bn-onboard-custom bn-onboard-select-wallet-definition"
+            in:fade
+            class="bn-onboard-custom bn-onboard-select-wallet-definition"
         >
-          {@html modalData.explanation}
+          {@html modalData.popupContent.fullHtml}
         </p>
       {/if}
     {:else}
       <SelectedWallet
-        {selectedWalletModule}
-        onBack={() => {
+          {selectedWalletModule}
+          onBack={() => {
           selectedWalletModule = null
           walletAlreadyInstalled = null
         }}
-        {installMessage}
+          {installMessage}
       />
     {/if}
   </Modal>

@@ -9,6 +9,13 @@ export interface Initialization {
   apiUrl?: string
   hideBranding?: boolean
   blockPollingInterval?: number
+  popupContent: PopupContentInterface
+}
+
+export interface PopupContentInterface {
+  teaser: string
+  fullHtml: string
+  dismiss: string
 }
 
 export interface Subscriptions {
@@ -23,6 +30,7 @@ export interface WalletSelectModuleOptions {
   description?: string
   wallets?: Array<WalletModule | WalletInitOptions>
   explanation?: string
+  popupContent?: PopupContentInterface
 }
 
 export interface WalletSelectModule {
@@ -30,6 +38,7 @@ export interface WalletSelectModule {
   description: string
   wallets: Array<WalletModule | WalletInitOptions>
   explanation?: string
+  popupContent?: PopupContentInterface
 }
 
 export interface WalletCheckModule {
@@ -66,6 +75,7 @@ export interface WalletSelectModalData {
   explanation?: string
   primaryWallets: WalletModule[]
   secondaryWallets: WalletModule[] | undefined
+  popupContent?: PopupContentInterface
 }
 
 export interface UserState {
@@ -112,7 +122,7 @@ export interface WalletModule {
     interface: WalletInterface | null
     instance?: any
   }>
-  type: 'hardware' | 'injected' | 'sdk'
+  type: "hardware" | "injected" | "sdk"
   link?: string
   installMessage?: (wallets: {
     currentWallet: string | undefined
@@ -159,7 +169,7 @@ export interface StateSyncer {
 export interface Wallet {
   name: string | null
   provider: any | null
-  type: 'hardware' | 'injected' | 'sdk' | null
+  type: "hardware" | "injected" | "sdk" | null
   instance?: any | null
   connect?: Connect | null
   dashboard?: () => void | null
@@ -213,24 +223,24 @@ interface VerifierStatus {
 }
 
 type LOGIN_TYPE =
-  | 'google'
-  | 'facebook'
-  | 'reddit'
-  | 'discord'
-  | 'twitch'
-  | 'apple'
-  | 'github'
-  | 'linkedin'
-  | 'twitter'
-  | 'weibo'
-  | 'line'
-  | 'jwt'
-  | 'email-password'
-  | 'passwordless'
+  | "google"
+  | "facebook"
+  | "reddit"
+  | "discord"
+  | "twitch"
+  | "apple"
+  | "github"
+  | "linkedin"
+  | "twitter"
+  | "weibo"
+  | "line"
+  | "jwt"
+  | "email-password"
+  | "passwordless"
 
 interface BaseLoginOptions {
-  display?: 'page' | 'popup' | 'touch' | 'wap'
-  prompt?: 'none' | 'login' | 'consent' | 'select_account'
+  display?: "page" | "popup" | "touch" | "wap"
+  prompt?: "none" | "login" | "consent" | "select_account"
   max_age?: string | number
   ui_locales?: string
   id_token_hint?: string
@@ -239,6 +249,7 @@ interface BaseLoginOptions {
   scope?: string
   audience?: string
   connection?: string
+
   [key: string]: unknown
 }
 
@@ -306,23 +317,23 @@ interface LoginConfig {
 }
 
 export interface TorusOptions extends CommonWalletOptions {
-  buttonPosition?: 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
+  buttonPosition?: "top-left" | "top-right" | "bottom-right" | "bottom-left"
   modalZIndex?: number
   apiKey?: string
   buildEnv?:
-    | 'production'
-    | 'development'
-    | 'binance'
-    | 'testing'
-    | 'lrc'
-    | 'beta'
+    | "production"
+    | "development"
+    | "binance"
+    | "testing"
+    | "lrc"
+    | "beta"
   enableLogging?: boolean
   enabledVerifiers?: VerifierStatus
   loginConfig?: LoginConfig
   showTorusButton?: boolean
   integrity?: IntegrityParams
   whiteLabel?: WhiteLabelParams
-  loginMethod?: 'google' | 'facebook' | 'twitch' | 'reddit' | 'discord' | string
+  loginMethod?: "google" | "facebook" | "twitch" | "reddit" | "discord" | string
 }
 
 //#endregion torus
@@ -407,6 +418,7 @@ interface GetState {
 export interface ConfigOptions {
   darkMode?: boolean
   networkId?: number
+  popupContent?: PopupContentInterface
 }
 
 export interface API {
@@ -481,6 +493,7 @@ export interface AppState {
   walletSelectDisplayedUI: boolean
   walletCheckDisplayedUI: boolean
   displayBranding: boolean
+  popupContent?: PopupContentInterface
 }
 
 export interface CancelablePromise extends Promise<any> {

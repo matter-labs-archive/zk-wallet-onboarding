@@ -1,10 +1,10 @@
-import { networkName } from '../../utilities'
 import {
-  WalletCheckModal,
   StateAndHelpers,
-  WalletCheckCustomOptions
-} from '../../interfaces'
-import { networkIcon } from './icons'
+  WalletCheckCustomOptions,
+  WalletCheckModal
+} from "../../interfaces"
+import { networkName } from "../../utilities"
+import { networkIcon } from "./icons"
 
 function network(
   options: WalletCheckCustomOptions = {}
@@ -30,7 +30,7 @@ function network(
           setTimeout(() => {
             if (network === null) {
               // if prom isn't resolving after 500ms, then stop waiting
-              resolve()
+              resolve("")
             }
           }, 500)
         })
@@ -39,7 +39,7 @@ function network(
 
     if (stateStore.network.get() != appNetworkId) {
       return {
-        heading: heading || 'You Must Change Networks',
+        heading: heading || "You Must Change Networks",
         description:
           description ||
           `We've detected that you need to switch your wallet's network from <b>${networkName(
@@ -47,13 +47,13 @@ function network(
           )}</b> to <b>${networkName(
             appNetworkId
           )}</b> for this Dapp. <br><br> <i style="font-size: inherit; font-family: inherit;">*Some wallets may not support changing networks. If you can not change networks in your wallet you may consider switching to a different wallet.</i>`,
-        eventCode: 'networkFail',
+        eventCode: "networkFail",
         button: button || {
           onclick: () => {
             exit()
             walletSelect()
           },
-          text: 'Switch Wallet'
+          text: "Switch Wallet"
         },
         html,
         icon: icon || networkIcon

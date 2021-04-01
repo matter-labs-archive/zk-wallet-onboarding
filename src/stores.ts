@@ -1,39 +1,46 @@
-import { getBlocknative } from './services'
-import { writable, derived, get } from 'svelte/store'
-import { wait, makeCancelable, createInterval } from './utilities'
-import { validateWalletInterface, validateType } from './validation'
+import { derived, get, writable } from "svelte/store"
 import {
-  WritableStore,
-  ReadableStore,
-  WalletInterfaceStore,
-  WalletInterface,
-  WalletStateSliceStore,
-  StateSyncer,
   BalanceStore,
   CancelablePromise,
-  WalletCheckModule
-} from './interfaces'
+  PopupContentInterface,
+  ReadableStore,
+  StateSyncer,
+  WalletCheckModule,
+  WalletInterface,
+  WalletInterfaceStore,
+  WalletStateSliceStore,
+  WritableStore
+} from "./interfaces"
+import { getBlocknative } from "./services"
+import { createInterval, makeCancelable, wait } from "./utilities"
+import { validateType, validateWalletInterface } from "./validation"
 
+const defaultPopupContent: PopupContentInterface = {
+  dismiss: "Dismiss",
+  teaser: "Can't find your wallet?",
+  fullHtml: `If your wallet is not on the list yet, it is nonetheless <a href="https://zksync.io/faq/wallets.html#what-if-my-wallet-is-not-supported-or-can-t-sign-a-message" target="_blank">possible to withdrawal your funds to L1</a>.<span class="bn-call-to-action-line">To request a withdrawal, send your zkSync address to <a style="color: #4a90e2; font-size: 0.889rem; font-family: inherit;" class="bn-onboard-clickable" href="mailto:withdraw@zksync.io">withdraw@zksync.io.</a></span> In the future, this functionality will be automated.`
+}
 export const app: WritableStore = writable({
-  dappId: '',
-  apiUrl: '',
+  dappId: "",
+  apiUrl: "",
   networkId: 1,
-  networkName: '',
-  version: '',
+  networkName: "",
+  version: "",
   mobileDevice: false,
-  os: '',
+  os: "",
   darkMode: false,
   walletSelectInProgress: false,
   walletSelectCompleted: false,
   walletCheckInProgress: false,
   walletCheckCompleted: false,
   accountSelectInProgress: false,
-  autoSelectWallet: '',
+  autoSelectWallet: "",
   checkModules: [],
   walletSelectDisplayedUI: false,
   walletCheckDisplayedUI: false,
   displayBranding: false,
-  blockPollingInterval: 4000
+  blockPollingInterval: 4000,
+  popupContent: defaultPopupContent
 })
 
 export const stateSyncStatus: {
@@ -63,19 +70,19 @@ let currentSyncerIntervals: ({ clear: () => void } | undefined)[]
 
 export function initializeStores() {
   address = createWalletStateSliceStore({
-    parameter: 'address',
+    parameter: "address",
     initialState: null
   })
 
   network = createWalletStateSliceStore({
-    parameter: 'network',
+    parameter: "network",
     initialState: null
   })
 
   balance = get(app).dappId
     ? createBalanceStore(null)
     : createWalletStateSliceStore({
-        parameter: 'balance',
+        parameter: "balance",
         initialState: null,
         intervalSetting: 1000
       })
@@ -239,28 +246,28 @@ function createWalletStateSliceStore(options: {
     },
     get: () => currentState,
     setStateSyncer: (stateSyncer: StateSyncer) => {
-      validateType({ name: 'stateSyncer', value: stateSyncer, type: 'object' })
+      validateType({ name: "stateSyncer", value: stateSyncer, type: "object" })
 
       const { get, onChange } = stateSyncer
 
       validateType({
         name: `${parameter}.get`,
         value: get,
-        type: 'function',
+        type: "function",
         optional: true
       })
 
       validateType({
         name: `${parameter}.onChange`,
         value: onChange,
-        type: 'function',
+        type: "function",
         optional: true
       })
 
       if (onChange) {
         stateSyncStatus[parameter] = new Promise(resolve => {
           onChange(newVal => {
-            resolve()
+            resolve("")
             if (newVal || currentState !== initialState) {
               set(newVal)
             }
@@ -320,7 +327,7 @@ function createBalanceStore(initialState: string | null): BalanceStore {
 
             emitter = blocknative.account($address).emitter
 
-            emitter.on('txConfirmed', () => {
+            emitter.on("txConfirmed", () => {
               if (stateSyncer.get) {
                 cancel = syncStateWithTimeout({
                   getState: stateSyncer.get,
@@ -361,21 +368,21 @@ function createBalanceStore(initialState: string | null): BalanceStore {
     subscribe,
     get: () => currentState,
     setStateSyncer: (syncer: StateSyncer) => {
-      validateType({ name: 'syncer', value: syncer, type: 'object' })
+      validateType({ name: "syncer", value: syncer, type: "object" })
 
       const { get, onChange } = syncer
 
       validateType({
-        name: 'balance.get',
+        name: "balance.get",
         value: get,
-        type: 'function',
+        type: "function",
         optional: true
       })
 
       validateType({
-        name: 'balance.onChange',
+        name: "balance.onChange",
         value: onChange,
-        type: 'function',
+        type: "function",
         optional: true
       })
 

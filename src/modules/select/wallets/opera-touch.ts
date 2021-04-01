@@ -1,14 +1,14 @@
-import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { extensionInstallMessage } from "../content"
 
-import operaTouchIcon from '../wallet-icons/icon-opera-touch.png'
-import operaTouchIcon2x from '../wallet-icons/icon-opera-touch@2x.png'
+import operaTouchIcon from "../wallet-icons/icon-opera-touch.png"
+import operaTouchIcon2x from "../wallet-icons/icon-opera-touch@2x.png"
 
 function operaTouch(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Opera Touch',
+    name: label || "Opera Touch",
     iconSrc: iconSrc || operaTouchIcon,
     iconSrcSet: iconSrc || operaTouchIcon2x,
     svg,
@@ -26,7 +26,7 @@ function operaTouch(options: CommonWalletOptions): WalletModule {
         interface:
           provider && getProviderName(provider) === undefined
             ? {
-                name: 'Opera Touch',
+                name: "Opera Touch",
                 connect: () =>
                   provider.enable().then((res: any) => {
                     enabled = true
@@ -48,12 +48,12 @@ function operaTouch(options: CommonWalletOptions): WalletModule {
             : null
       }
     },
-    type: 'injected',
-    link: 'https://www.opera.com/mobile/touch',
+    type: "injected",
+    link: "https://www.opera.com/mobile/touch",
     installMessage: extensionInstallMessage,
     mobile: true,
     preferred,
-    osExclusions: ['Android']
+    osExclusions: ["Android"]
   }
 }
 

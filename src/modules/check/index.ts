@@ -1,7 +1,7 @@
-import { isWalletCheckModule } from '../../validation'
-import { WalletCheckModule, WalletCheckInit } from '../../interfaces'
+import { WalletCheckInit, WalletCheckModule } from "../../interfaces"
+import { isWalletCheckModule } from "../../validation"
 
-const defaultChecks = ['connect', 'network']
+const defaultChecks = ["connect", "network"]
 
 async function check(
   walletChecks: Array<WalletCheckInit | WalletCheckModule> | undefined,
@@ -36,16 +36,16 @@ async function check(
 
 function getModule(name: string): Promise<any> | never {
   switch (name) {
-    case 'connect':
-      return import('./connect')
-    case 'network':
-      return import('./network')
-    case 'balance':
-      return import('./balance')
-    case 'accounts':
-      return import('./accounts')
-    case 'derivationPath':
-      return import('./derivation-path')
+    case "connect":
+      return import("./connect")
+    case "network":
+      return import("./network")
+    case "balance":
+      return import("./balance")
+    case "accounts":
+      return import("./accounts")
+    case "derivationPath":
+      return import("./derivation-path")
     default:
       throw new Error(`invalid module name: ${name}`)
   }

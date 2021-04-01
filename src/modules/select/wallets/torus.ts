@@ -1,7 +1,7 @@
-import { networkName } from '../../../utilities'
-import { Helpers, TorusOptions, WalletModule } from '../../../interfaces'
+import { Helpers, TorusOptions, WalletModule } from "../../../interfaces"
+import { networkName } from "../../../utilities"
 
-import torusIcon from '../wallet-icons/icon-torus'
+import torusIcon from "../wallet-icons/icon-torus"
 
 function torus(options: TorusOptions & { networkId: number }): WalletModule {
   const {
@@ -24,15 +24,13 @@ function torus(options: TorusOptions & { networkId: number }): WalletModule {
   } = options
 
   return {
-    name: label || 'Torus',
+    name: label || "Torus",
     svg: svg || torusIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
-      const {
-        createModernProviderInterface
-      } = helpers
+      const { createModernProviderInterface } = helpers
 
-      const { default: Torus } = await import('@toruslabs/torus-embed')
+      const { default: Torus } = await import("@toruslabs/torus-embed")
       const instance = new Torus({
         buttonPosition, // default: bottom-left
         modalZIndex,
@@ -60,18 +58,18 @@ function torus(options: TorusOptions & { networkId: number }): WalletModule {
         provider,
         interface: {
           ...createModernProviderInterface(provider),
-          name: 'Torus',
-          dashboard: () => instance.showWallet('home'),
+          name: "Torus",
+          dashboard: () => instance.showWallet("home"),
           connect: async () => {
             const result = await instance.login({ verifier: loginMethod })
             return { message: result[0] }
           },
-          disconnect: () => instance.cleanUp(),
+          disconnect: () => instance.cleanUp()
         },
         instance
       }
     },
-    type: 'sdk',
+    type: "sdk",
     desktop: true,
     mobile: true,
     preferred

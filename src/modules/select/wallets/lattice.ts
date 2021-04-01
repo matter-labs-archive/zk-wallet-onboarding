@@ -1,5 +1,5 @@
-import { LatticeOptions, WalletModule, Helpers } from '../../../interfaces'
-import latticeIcon from '../wallet-icons/icon-lattice'
+import { Helpers, LatticeOptions, WalletModule } from "../../../interfaces"
+import latticeIcon from "../wallet-icons/icon-lattice"
 
 function lattice(
   options: LatticeOptions & { networkId: number }
@@ -7,7 +7,7 @@ function lattice(
   const { appName, rpcUrl, networkId, preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Lattice',
+    name: label || "Lattice",
     svg: svg || latticeIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
@@ -25,7 +25,7 @@ function lattice(
       return {
         provider,
         interface: {
-          name: 'Lattice',
+          name: "Lattice",
           connect: provider.enable,
           disconnect: provider.disconnect,
           address: {
@@ -43,10 +43,10 @@ function lattice(
         }
       }
     },
-    type: 'hardware',
+    type: "hardware",
     desktop: true,
     mobile: true,
-    osExclusions: ['iOS'],
+    osExclusions: ["iOS"],
     preferred
   }
 }
@@ -62,9 +62,9 @@ async function latticeProvider(options: {
     walletName: string
   }) => void
 }) {
-  const { default: EthLatticeKeyring } = await import('eth-lattice-keyring')
-  const EthereumTx = await import('ethereumjs-tx')
-  const { default: createProvider } = await import('./providerEngine')
+  const { default: EthLatticeKeyring } = await import("eth-lattice-keyring")
+  const EthereumTx = await import("ethereumjs-tx")
+  const { default: createProvider } = await import("./providerEngine")
 
   const BASE_PATH = "m/44'/60'/0'/0"
 
@@ -76,7 +76,7 @@ async function latticeProvider(options: {
   }
   const Lattice = new EthLatticeKeyring(params)
 
-  let dPath = ''
+  let dPath = ""
 
   let addressList = Array.from([])
   let enabled = false
@@ -130,7 +130,7 @@ async function latticeProvider(options: {
   provider.isCustomPath = isCustomPath
 
   function disconnect() {
-    dPath = ''
+    dPath = ""
     enabled = false
     provider.stop()
   }
@@ -205,9 +205,9 @@ async function latticeProvider(options: {
     return new Promise((resolve, reject) => {
       provider.sendAsync(
         {
-          jsonrpc: '2.0',
-          method: 'eth_getBalance',
-          params: [address, 'latest'],
+          jsonrpc: "2.0",
+          method: "eth_getBalance",
+          params: [address, "latest"],
           id: 42
         },
         (e: any, res: any) => {
@@ -238,7 +238,7 @@ async function latticeProvider(options: {
         addressList[0],
         transaction
       )
-      return `0x${signedTx.serialize().toString('hex')}`
+      return `0x${signedTx.serialize().toString("hex")}`
     } catch (err) {
       throw err
     }

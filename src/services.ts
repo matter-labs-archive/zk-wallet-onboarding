@@ -1,7 +1,7 @@
-import BlocknativeApi from 'bnc-sdk'
-import { get } from 'svelte/store'
-import { app } from './stores'
-import { version } from '../package.json'
+import BlocknativeApi from "bnc-sdk"
+import {get} from "svelte/store"
+import {version} from "../package.json"
+import {app} from "./stores"
 
 let blocknative: any
 
@@ -13,7 +13,7 @@ export function initializeBlocknative(
   blocknative = new BlocknativeApi({
     dappId,
     networkId,
-    name: 'Onboard',
+    name: "Onboard",
     appVersion: version,
     apiUrl
   })
@@ -22,7 +22,7 @@ export function initializeBlocknative(
 
 export function getBlocknative(): any {
   if (!blocknative) {
-    const { dappId, networkId, apiUrl } = get(app)
+    const {dappId, networkId, apiUrl} = get(app)
     // init only if dappId
     dappId && initializeBlocknative(dappId, networkId, apiUrl)
   }

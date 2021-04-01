@@ -1,16 +1,13 @@
+import { get } from "svelte/store"
 import {
+  Helpers,
   WalletConnectOptions,
-  WalletModule,
-  Helpers
-} from '../../../interfaces'
+  WalletModule
+} from "../../../interfaces"
 
-import walletConnectIcon from '../wallet-icons/icon-wallet-connect'
+import { app } from "../../../stores"
 
-import { get } from 'svelte/store'
-
-import {
-  app,
-} from '../../../stores'
+import walletConnectIcon from "../wallet-icons/icon-wallet-connect"
 
 function walletConnect(
   options: WalletConnectOptions & { networkId: number }
@@ -37,13 +34,13 @@ function walletConnect(
   }
 
   return {
-    name: label || 'WalletConnect',
+    name: label || "WalletConnect",
     svg: svg || walletConnectIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
-      const createProvider = (await import('./providerEngine')).default
+      const createProvider = (await import("./providerEngine")).default
       const { default: WalletConnectProvider } = await import(
-        '@walletconnect/web3-provider'
+        "@walletconnect/web3-provider"
       )
 
       const { resetWalletState, networkName, getBalance } = helpers
@@ -64,14 +61,14 @@ function walletConnect(
 
       provider.autoRefreshOnNetworkChange = false
 
-      provider.wc.on('disconnect', () => {
-        resetWalletState({ disconnected: true, walletName: 'WalletConnect' })
+      provider.wc.on("disconnect", () => {
+        resetWalletState({ disconnected: true, walletName: "WalletConnect" })
       })
 
       return {
         provider,
         interface: {
-          name: 'WalletConnect',
+          name: "WalletConnect",
           connect: () =>
             new Promise((resolve, reject) => {
               provider
@@ -80,24 +77,24 @@ function walletConnect(
                 .catch(() =>
                   reject({
                     message:
-                      'This dapp needs access to your account information.'
+                      "This dapp needs access to your account information."
                   })
                 )
             }),
           address: {
             onChange: func => {
               provider
-                .send('eth_accounts')
+                .send("eth_accounts")
                 .then((accounts: string[]) => accounts[0] && func(accounts[0]))
-              provider.on('accountsChanged', (accounts: string[]) =>
+              provider.on("accountsChanged", (accounts: string[]) =>
                 func(accounts[0])
               )
             }
           },
           network: {
             onChange: func => {
-              provider.send('eth_chainId').then(func)
-              provider.on('chainChanged', func)
+              provider.send("eth_chainId").then(func)
+              provider.on("chainChanged", func)
             }
           },
           balance: {
@@ -116,7 +113,7 @@ function walletConnect(
         }
       }
     },
-    type: 'sdk',
+    type: "sdk",
     desktop: true,
     mobile: true,
     preferred

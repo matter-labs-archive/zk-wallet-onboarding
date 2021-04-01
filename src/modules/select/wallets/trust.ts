@@ -1,17 +1,17 @@
-import { mobileWalletInstallMessage } from '../content'
 import {
-  WalletModule,
   Helpers,
-  InjectedWithBalanceOptions
-} from '../../../interfaces'
+  InjectedWithBalanceOptions,
+  WalletModule
+} from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import trustIcon from '../wallet-icons/icon-trust'
+import trustIcon from "../wallet-icons/icon-trust"
 
 function trust(options: InjectedWithBalanceOptions): WalletModule {
   const { preferred, label, iconSrc, svg, rpcUrl } = options
 
   return {
-    name: label || 'Trust',
+    name: label || "Trust",
     svg: svg || trustIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
@@ -20,11 +20,11 @@ function trust(options: InjectedWithBalanceOptions): WalletModule {
         (window as any).ethereum ||
         ((window as any).web3 && (window as any).web3.currentProvider)
 
-      const isTrust = getProviderName(trustProvider) === 'Trust'
+      const isTrust = getProviderName(trustProvider) === "Trust"
       let createProvider
 
       if (isTrust && rpcUrl) {
-        createProvider = (await import('./providerEngine')).default
+        createProvider = (await import("./providerEngine")).default
       }
 
       const provider = createProvider ? createProvider({ rpcUrl }) : null
@@ -64,7 +64,7 @@ function trust(options: InjectedWithBalanceOptions): WalletModule {
           : null
       }
     },
-    type: 'injected',
+    type: "injected",
     link: `https://link.trustwallet.com/open_url?coin_id=60&url=${window.location.href}`,
     installMessage: mobileWalletInstallMessage,
     mobile: true,

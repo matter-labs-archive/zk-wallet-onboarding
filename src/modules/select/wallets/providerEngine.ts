@@ -1,12 +1,11 @@
-import Web3ProviderEngine from 'web3-provider-engine'
-import RpcSource from 'web3-provider-engine/subproviders/rpc'
-import HookedWalletSubprovider from 'web3-provider-engine/subproviders/hooked-wallet'
-import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions'
-import FilterSubprovider from 'web3-provider-engine/subproviders/filters'
+import { get } from "svelte/store"
+import Web3ProviderEngine from "web3-provider-engine"
+import FilterSubprovider from "web3-provider-engine/subproviders/filters"
+import HookedWalletSubprovider from "web3-provider-engine/subproviders/hooked-wallet"
+import RpcSource from "web3-provider-engine/subproviders/rpc"
+import SubscriptionSubprovider from "web3-provider-engine/subproviders/subscriptions"
 
-import { get } from 'svelte/store'
-
-import { app } from '../../../stores'
+import { app } from "../../../stores"
 
 function createProvider(config: any) {
   const {
@@ -16,7 +15,7 @@ function createProvider(config: any) {
     processMessage,
     processPersonalMessage,
     signMessage,
-    signPersonalMessage,
+    signPersonalMessage
   } = config
 
   const pollingInterval = get(app).blockPollingInterval
@@ -33,10 +32,10 @@ function createProvider(config: any) {
     })
 
   const rpcSubProvider = new RpcSource({
-    rpcUrl: rpcUrl.includes('http') ? rpcUrl : `https://${rpcUrl}`
+    rpcUrl: rpcUrl.includes("http") ? rpcUrl : `https://${rpcUrl}`
   })
 
-  const provider = new Web3ProviderEngine({pollingInterval})
+  const provider = new Web3ProviderEngine({ pollingInterval })
 
   provider.addProvider(new SubscriptionSubprovider())
   provider.addProvider(new FilterSubprovider())
@@ -44,7 +43,7 @@ function createProvider(config: any) {
   provider.addProvider(rpcSubProvider)
   provider.start()
 
-  provider.on('error', console.error)
+  provider.on("error", console.error)
 
   return provider
 }

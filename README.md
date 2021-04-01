@@ -1,10 +1,10 @@
 # Onboard
 
-JavaScript library to easily onboard users to ethereum apps by enabling wallet selection, connection, wallet checks and real time state updates.
+A package for authorization over web3 & wallet-connect initialy created by the Blocknative and humbly forked to become a part of zkSync mighty quest.
 
 ## Install
 
-`npm install bnc-onboard`
+`yarn add bnc-onboard`
 
 ## Quick Start
 
@@ -43,4 +43,8 @@ await onboard.walletCheck()
 
 ## Documentation
 
-For detailed documentation head to [docs.blocknative.com](https://docs.blocknative.com/onboard)
+Lack details? Check [zksync.io dev docs](http://zksync.io/dev)
+
+## Initial authorship
+
+[_Blocknative inc. 2020_]()

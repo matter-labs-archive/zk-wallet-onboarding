@@ -1,14 +1,14 @@
-import { extensionInstallMessage, mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { extensionInstallMessage, mobileWalletInstallMessage } from "../content"
 
-import metamaskIcon from '../wallet-icons/icon-metamask.png'
-import metamaskIcon2x from '../wallet-icons/icon-metamask@2x.png'
+import metamaskIcon from "../wallet-icons/icon-metamask.png"
+import metamaskIcon2x from "../wallet-icons/icon-metamask@2x.png"
 
 function metamask(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg, isMobile } = options
 
   return {
-    name: label || 'MetaMask',
+    name: label || "MetaMask",
     iconSrc: iconSrc || metamaskIcon,
     iconSrcSet: iconSrc || metamaskIcon2x,
     svg,
@@ -26,14 +26,14 @@ function metamask(options: CommonWalletOptions): WalletModule {
       return {
         provider,
         interface:
-          provider && getProviderName(provider) === 'MetaMask'
-            ? typeof provider.enable === 'function'
+          provider && getProviderName(provider) === "MetaMask"
+            ? typeof provider.enable === "function"
               ? createModernProviderInterface(provider)
               : createLegacyProviderInterface(provider)
             : null
       }
     },
-    type: 'injected',
+    type: "injected",
     link: `https://metamask.app.link/dapp/${window.location.host}`,
     installMessage: isMobile
       ? mobileWalletInstallMessage

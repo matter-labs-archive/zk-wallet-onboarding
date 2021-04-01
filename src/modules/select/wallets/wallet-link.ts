@@ -1,6 +1,6 @@
-import { WalletLinkOptions, WalletModule, Helpers } from '../../../interfaces'
+import { Helpers, WalletLinkOptions, WalletModule } from "../../../interfaces"
 
-import coinbaseIcon from '../wallet-icons/icon-coinbase'
+import coinbaseIcon from "../wallet-icons/icon-coinbase"
 
 function walletLink(
   options: WalletLinkOptions & { networkId: number }
@@ -17,13 +17,13 @@ function walletLink(
   } = options
 
   return {
-    name: label || 'WalletLink',
+    name: label || "WalletLink",
     svg: svg || coinbaseIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {
       const { getBalance, getAddress, getNetwork } = helpers
 
-      const { default: WalletLink } = await import('walletlink')
+      const { default: WalletLink } = await import("walletlink")
 
       const instance = new WalletLink({
         appName,
@@ -35,7 +35,7 @@ function walletLink(
       return {
         provider,
         interface: {
-          name: 'WalletConnect',
+          name: "WalletConnect",
           connect: () =>
             new Promise((resolve, reject) => {
               provider
@@ -44,7 +44,7 @@ function walletLink(
                 .catch(() =>
                   reject({
                     message:
-                      'This dapp needs access to your account information.'
+                      "This dapp needs access to your account information."
                   })
                 )
             }),
@@ -63,7 +63,7 @@ function walletLink(
         }
       }
     },
-    type: 'sdk',
+    type: "sdk",
     desktop: true,
     preferred
   }

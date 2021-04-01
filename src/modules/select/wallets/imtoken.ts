@@ -1,27 +1,27 @@
-import { mobileWalletInstallMessage } from '../content'
 import {
-  WalletModule,
   Helpers,
-  InjectedWithBalanceOptions
-} from '../../../interfaces'
+  InjectedWithBalanceOptions,
+  WalletModule
+} from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import imTokenIcon from '../wallet-icons/icon-imtoken'
+import imTokenIcon from "../wallet-icons/icon-imtoken"
 
 function imtoken(options: InjectedWithBalanceOptions): WalletModule {
   const { preferred, label, iconSrc, svg, rpcUrl } = options
 
   return {
-    name: label || 'imToken',
+    name: label || "imToken",
     iconSrc,
     svg: svg || imTokenIcon,
     wallet: async (helpers: Helpers) => {
       const { getProviderName, getBalance } = helpers
       const imTokenProvider = (window as any).ethereum
-      const isImToken = getProviderName(imTokenProvider) === 'imToken'
+      const isImToken = getProviderName(imTokenProvider) === "imToken"
       let createProvider
 
       if (isImToken && rpcUrl) {
-        createProvider = (await import('./providerEngine')).default
+        createProvider = (await import("./providerEngine")).default
       }
 
       const provider = createProvider ? createProvider({ rpcUrl }) : null
@@ -61,7 +61,7 @@ function imtoken(options: InjectedWithBalanceOptions): WalletModule {
           : null
       }
     },
-    type: 'injected',
+    type: "injected",
     link: `imtokenv2://navigate?screen=DappView&url=${window.location.href}`,
     installMessage: mobileWalletInstallMessage,
     mobile: true,

@@ -1,15 +1,15 @@
-import bowser from 'bowser'
-import BigNumber from 'bignumber.js'
+import BigNumber from "bignumber.js"
+import bowser from "bowser"
+import {get} from "svelte/store"
 
-import { WalletInterface } from './interfaces'
-import { app } from './stores'
-import { get } from 'svelte/store'
+import {WalletInterface} from "./interfaces"
+import {app} from "./stores"
 
 export function getNetwork(provider: any): Promise<number | any> {
   return new Promise((resolve, reject) => {
     const options = {
-      jsonrpc: '2.0',
-      method: 'net_version',
+      jsonrpc: "2.0",
+      method: "net_version",
       params: [],
       id: 42
     }
@@ -25,9 +25,9 @@ export function getNetwork(provider: any): Promise<number | any> {
       resolve(result && Number(result))
     }
 
-    if (typeof provider.sendAsync === 'function') {
+    if (typeof provider.sendAsync === "function") {
       provider.sendAsync(options, callback)
-    } else if (typeof provider.send === 'function') {
+    } else if (typeof provider.send === "function") {
       provider.send(options, callback)
     } else {
       resolve(null)
@@ -38,8 +38,8 @@ export function getNetwork(provider: any): Promise<number | any> {
 export function getAddress(provider: any): Promise<string | any> {
   return new Promise((resolve, reject) => {
     const options = {
-      jsonrpc: '2.0',
-      method: 'eth_accounts',
+      jsonrpc: "2.0",
+      method: "eth_accounts",
       params: [],
       id: 42
     }
@@ -57,9 +57,9 @@ export function getAddress(provider: any): Promise<string | any> {
       resolve(result)
     }
 
-    if (typeof provider.sendAsync === 'function') {
+    if (typeof provider.sendAsync === "function") {
       provider.sendAsync(options, callback)
-    } else if (typeof provider.send === 'function') {
+    } else if (typeof provider.send === "function") {
       provider.send(options, callback)
     } else {
       resolve(null)
@@ -80,9 +80,9 @@ export function getBalance(
     }
 
     const options = {
-      jsonrpc: '2.0',
-      method: 'eth_getBalance',
-      params: [currentAddress, 'latest'],
+      jsonrpc: "2.0",
+      method: "eth_getBalance",
+      params: [currentAddress, "latest"],
       id: 42
     }
 
@@ -100,9 +100,9 @@ export function getBalance(
       resolve(result && new BigNumber(result).toString(10))
     }
 
-    if (typeof provider.sendAsync === 'function') {
+    if (typeof provider.sendAsync === "function") {
       provider.sendAsync(options, callback)
-    } else if (typeof provider.send === 'function') {
+    } else if (typeof provider.send === "function") {
       provider.send(options, callback)
     } else {
       resolve(null)
@@ -113,40 +113,40 @@ export function getBalance(
 export function createModernProviderInterface(provider: any): WalletInterface {
   provider.autoRefreshOnNetworkChange = false
 
-  const onFuncExists = typeof provider.on === 'function'
+  const onFuncExists = typeof provider.on === "function"
 
   return {
     address: onFuncExists
-      ? {
-          onChange: func => {
-            // get the initial value
-            getAddress(provider).then(func)
-            provider.on('accountsChanged', (accounts: string[]) =>
-              func(accounts && accounts[0])
-            )
-          }
+             ? {
+        onChange: func => {
+          // get the initial value
+          getAddress(provider).then(func)
+          provider.on("accountsChanged", (accounts: string[]) =>
+            func(accounts && accounts[0])
+          )
         }
-      : {
-          get: () => getAddress(provider)
-        },
+      }
+             : {
+        get: () => getAddress(provider)
+      },
     network: onFuncExists
-      ? {
-          onChange: (func: (val: string | number) => void) => {
-            // get initial value
-            getNetwork(provider).then(func)
+             ? {
+        onChange: (func: (val: string | number) => void) => {
+          // get initial value
+          getNetwork(provider).then(func)
 
-            // networkChanged event is deprecated in MM, keep for wallets that may not have updated
-            provider.on('networkChanged', (netId: string | number) =>
-              func(netId && Number(netId))
-            )
+          // networkChanged event is deprecated in MM, keep for wallets that may not have updated
+          provider.on("networkChanged", (netId: string | number) =>
+            func(netId && Number(netId))
+          )
 
-            // use new chainChanged event for network change
-            provider.on('chainChanged', (netId: string | number) =>
-              func(netId && Number(netId))
-            )
-          }
+          // use new chainChanged event for network change
+          provider.on("chainChanged", (netId: string | number) =>
+            func(netId && Number(netId))
+          )
         }
-      : { get: () => getNetwork(provider) },
+      }
+             : {get: () => getNetwork(provider)},
     balance: {
       get: () => getBalance(provider)
     },
@@ -154,7 +154,7 @@ export function createModernProviderInterface(provider: any): WalletInterface {
       try {
         if (provider.request) {
           const result = await provider.request({
-            method: 'eth_requestAccounts'
+            method: "eth_requestAccounts"
           })
           return result
         } else {
@@ -163,7 +163,7 @@ export function createModernProviderInterface(provider: any): WalletInterface {
         }
       } catch (e) {
         throw {
-          message: 'This dapp requires access to your account information.'
+          message: "This dapp requires access to your account information."
         }
       }
     },
@@ -190,85 +190,85 @@ export function getProviderName(provider: any): string | undefined {
   if (!provider) return
 
   if (provider.isWalletIO) {
-    return 'wallet.io'
+    return "wallet.io"
   }
   if (provider.isDcentWallet) {
-    return 'D\'CENT'
+    return "D'CENT"
   }
   if (provider.isTokenPocket) {
-    return 'TokenPocket'
+    return "TokenPocket"
   }
 
-  if (provider.wallet === 'MEETONE') {
-    return 'MEETONE'
+  if (provider.wallet === "MEETONE") {
+    return "MEETONE"
   }
 
   if (provider.isTorus) {
-    return 'Torus'
+    return "Torus"
   }
 
   if (provider.isImToken) {
-    return 'imToken'
+    return "imToken"
   }
 
   if (provider.isDapper) {
-    return 'Dapper'
+    return "Dapper"
   }
 
   if (provider.isWalletConnect) {
-    return 'WalletConnect'
+    return "WalletConnect"
   }
 
   if (provider.isTrust) {
-    return 'Trust'
+    return "Trust"
   }
 
   if (provider.isCoinbaseWallet) {
-    return 'Coinbase'
+    return "Coinbase"
   }
 
   if (provider.isToshi) {
-    return 'Toshi'
+    return "Toshi"
   }
 
   if (provider.isCipher) {
-    return 'Cipher'
+    return "Cipher"
   }
 
   if (provider.isOpera) {
-    return 'Opera'
+    return "Opera"
   }
 
   if (provider.isStatus) {
-    return 'Status'
+    return "Status"
   }
 
   if (provider.isMetaMask) {
-    return 'MetaMask'
+    return "MetaMask"
   }
 
   if (provider.isMYKEY) {
-    return 'MYKEY'
+    return "MYKEY"
   }
 
   if (provider.isHbWallet) {
-    return 'huobiwallet'
+    return "huobiwallet"
   }
 
   if (provider.isHyperPay) {
-    return 'HyperPay'
+    return "HyperPay"
   }
 
   if (provider.isAToken) {
-    return 'AToken'
+    return "AToken"
   }
 
   if (provider.isLiquality) {
-    return 'Liquality'
+    return "Liquality"
   }
 
-  if (provider.host && provider.host.indexOf('localhost') !== -1) {
-    return 'localhost'
+  if (provider.host && provider.host.indexOf("localhost") !== -1) {
+    return "localhost"
   }
 }
 
@@ -276,10 +276,10 @@ export function getDeviceInfo() {
   const parsed = bowser.getParser(window.navigator.userAgent)
   const os = parsed.getOS()
   const browser = parsed.getBrowser()
-  const { type } = parsed.getPlatform()
+  const {type} = parsed.getPlatform()
 
   return {
-    isMobile: type ? type !== 'desktop' : window.innerWidth < 600,
+    isMobile: type ? type !== "desktop" : window.innerWidth < 600,
     os,
     browser
   }
@@ -288,35 +288,35 @@ export function getDeviceInfo() {
 export function networkName(id: number): string {
   switch (id) {
     case 1:
-      return 'mainnet'
+      return "mainnet"
     case 3:
-      return 'ropsten'
+      return "ropsten"
     case 4:
-      return 'rinkeby'
+      return "rinkeby"
     case 5:
-      return 'goerli'
+      return "goerli"
     case 42:
-      return 'kovan'
+      return "kovan"
     case 100:
-      return 'xdai'
+      return "xdai"
     default:
-      return get(app).networkName || 'local'
+      return get(app).networkName || "local"
   }
 }
 
 export function networkToId(network: string): number {
   switch (network) {
-    case 'mainnet':
+    case "mainnet":
       return 1
-    case 'ropsten':
+    case "ropsten":
       return 3
-    case 'rinkeby':
+    case "rinkeby":
       return 4
-    case 'goerli':
+    case "goerli":
       return 5
-    case 'kovan':
+    case "kovan":
       return 42
-    case 'xdai':
+    case "xdai":
       return 100
     default:
       return 0
@@ -337,7 +337,7 @@ export function makeCancelable(promise: any) {
   })
 
   wrappedPromise.cancel = () => {
-    rejectFn('canceled')
+    rejectFn("canceled")
   }
 
   return wrappedPromise
@@ -352,7 +352,7 @@ export function isPromise(val: any): val is Promise<any> {
 
 export function createInterval(func: any, interval: number) {
   const id = setInterval(func, interval)
-  const status = { active: true }
+  const status = {active: true}
 
   return {
     status,

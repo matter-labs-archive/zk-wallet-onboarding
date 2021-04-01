@@ -1,14 +1,14 @@
-import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { CommonWalletOptions, Helpers, WalletModule } from "../../../interfaces"
+import { mobileWalletInstallMessage } from "../content"
 
-import meetoneIcon from '../wallet-icons/icon-meetone.png'
-import meetoneIcon2x from '../wallet-icons/icon-meetone.png'
+import meetoneIcon from "../wallet-icons/icon-meetone.png"
+import meetoneIcon2x from "../wallet-icons/icon-meetone.png"
 
 function meetone(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'MEETONE',
+    name: label || "MEETONE",
     iconSrc: iconSrc || meetoneIcon,
     iconSrcSet: iconSrc || meetoneIcon2x,
     svg,
@@ -22,13 +22,13 @@ function meetone(options: CommonWalletOptions): WalletModule {
       return {
         provider,
         interface:
-          (getProviderName(provider) === 'MEETONE' &&
+          (getProviderName(provider) === "MEETONE" &&
             createModernProviderInterface(provider)) ||
           null
       }
     },
-    type: 'injected',
-    link: 'https://meet.one',
+    type: "injected",
+    link: "https://meet.one",
     installMessage: mobileWalletInstallMessage,
     mobile: true,
     preferred

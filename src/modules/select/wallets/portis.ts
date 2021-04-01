@@ -1,7 +1,7 @@
-import { networkName, openLink } from '../../../utilities'
-import { SdkWalletOptions, WalletModule, Helpers } from '../../../interfaces'
+import { Helpers, SdkWalletOptions, WalletModule } from "../../../interfaces"
+import { networkName, openLink } from "../../../utilities"
 
-import portisIcon from '../wallet-icons/icon-portis'
+import portisIcon from "../wallet-icons/icon-portis"
 
 function portis(
   options: SdkWalletOptions & { networkId: number }
@@ -9,11 +9,11 @@ function portis(
   const { apiKey, networkId, preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Portis',
+    name: label || "Portis",
     iconSrc,
     svg: svg || portisIcon,
     wallet: async (helpers: Helpers) => {
-      const { default: Portis } = await import('@portis/web3')
+      const { default: Portis } = await import("@portis/web3")
       const instance = new Portis(apiKey, networkName(networkId))
       const provider = instance.provider
       const { BigNumber } = helpers
@@ -22,7 +22,7 @@ function portis(
         provider,
         instance,
         interface: {
-          name: 'Portis',
+          name: "Portis",
           connect: provider.enable,
           disconnect: () => {
             instance.logout()
@@ -51,9 +51,9 @@ function portis(
 
                   provider.sendAsync(
                     {
-                      jsonrpc: '2.0',
-                      method: 'eth_getBalance',
-                      params: [provider.address, 'latest'],
+                      jsonrpc: "2.0",
+                      method: "eth_getBalance",
+                      params: [provider.address, "latest"],
                       id: 1
                     },
                     (e: any, res: any) => {
@@ -63,11 +63,11 @@ function portis(
                 }, 1)
               })
           },
-          dashboard: () => openLink('https://wallet.portis.io/')
+          dashboard: () => openLink("https://wallet.portis.io/")
         }
       }
     },
-    type: 'sdk',
+    type: "sdk",
     desktop: true,
     mobile: true,
     preferred
