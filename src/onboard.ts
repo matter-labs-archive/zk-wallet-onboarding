@@ -9,6 +9,7 @@ import {
   AppState,
   ConfigOptions,
   Initialization,
+  PopupContentInterface,
   UserState,
   Wallet
 } from "./interfaces"
@@ -51,7 +52,11 @@ function init(initialization: Initialization): API {
     apiUrl,
     hideBranding,
     blockPollingInterval = 4000,
-    popupContent
+    popupContent = {
+      dismiss: "Dismiss",
+      teaser: "Can't find your wallet?",
+      fullHtml: ""
+    } as PopupContentInterface
   } = initialization
 
   const { os, browser, isMobile } = getDeviceInfo()

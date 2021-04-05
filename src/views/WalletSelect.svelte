@@ -105,7 +105,7 @@
       app.update(store => ({...store, autoSelectWallet: ""}))
 
       if (module) {
-        handleWalletSelect(module, true)
+        await handleWalletSelect(module, true)
         return
       }
     }
