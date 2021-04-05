@@ -78,6 +78,8 @@ function init(initialization: Initialization): API {
     browser,
     darkMode,
     displayBranding,
+    popupContent,
+    hideBranding,
     checkModules: initializedModules.walletCheck,
     blockPollingInterval
   }))

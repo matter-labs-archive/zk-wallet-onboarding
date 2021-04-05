@@ -1,9 +1,9 @@
 import BigNumber from "bignumber.js"
 import bowser from "bowser"
-import {get} from "svelte/store"
+import { get } from "svelte/store"
 
-import {WalletInterface} from "./interfaces"
-import {app} from "./stores"
+import { WalletInterface } from "./interfaces"
+import { app } from "./stores"
 
 export function getNetwork(provider: any): Promise<number | any> {
   return new Promise((resolve, reject) => {
@@ -117,36 +117,36 @@ export function createModernProviderInterface(provider: any): WalletInterface {
 
   return {
     address: onFuncExists
-             ? {
-        onChange: func => {
-          // get the initial value
-          getAddress(provider).then(func)
-          provider.on("accountsChanged", (accounts: string[]) =>
-            func(accounts && accounts[0])
-          )
+      ? {
+          onChange: func => {
+            // get the initial value
+            getAddress(provider).then(func)
+            provider.on("accountsChanged", (accounts: string[]) =>
+              func(accounts && accounts[0])
+            )
+          }
         }
-      }
-             : {
-        get: () => getAddress(provider)
-      },
+      : {
+          get: () => getAddress(provider)
+        },
     network: onFuncExists
-             ? {
-        onChange: (func: (val: string | number) => void) => {
-          // get initial value
-          getNetwork(provider).then(func)
+      ? {
+          onChange: (func: (val: string | number) => void) => {
+            // get initial value
+            getNetwork(provider).then(func)
 
-          // networkChanged event is deprecated in MM, keep for wallets that may not have updated
-          provider.on("networkChanged", (netId: string | number) =>
-            func(netId && Number(netId))
-          )
+            // networkChanged event is deprecated in MM, keep for wallets that may not have updated
+            provider.on("networkChanged", (netId: string | number) =>
+              func(netId && Number(netId))
+            )
 
-          // use new chainChanged event for network change
-          provider.on("chainChanged", (netId: string | number) =>
-            func(netId && Number(netId))
-          )
+            // use new chainChanged event for network change
+            provider.on("chainChanged", (netId: string | number) =>
+              func(netId && Number(netId))
+            )
+          }
         }
-      }
-             : {get: () => getNetwork(provider)},
+      : { get: () => getNetwork(provider) },
     balance: {
       get: () => getBalance(provider)
     },
@@ -276,7 +276,7 @@ export function getDeviceInfo() {
   const parsed = bowser.getParser(window.navigator.userAgent)
   const os = parsed.getOS()
   const browser = parsed.getBrowser()
-  const {type} = parsed.getPlatform()
+  const { type } = parsed.getPlatform()
 
   return {
     isMobile: type ? type !== "desktop" : window.innerWidth < 600,
@@ -352,7 +352,7 @@ export function isPromise(val: any): val is Promise<any> {
 
 export function createInterval(func: any, interval: number) {
   const id = setInterval(func, interval)
-  const status = {active: true}
+  const status = { active: true }
 
   return {
     status,

@@ -16,7 +16,7 @@ export default function initializeModules(
   walletSelect: WalletSelectModuleOptions | undefined,
   walletCheck: Array<WalletCheckModule | WalletCheckInit> | undefined,
   isMobile: boolean,
-  popupContent: PopupContentInterface
+  popupContent: PopupContentInterface | undefined
 ) {
   const wallets = select(
     walletSelect && walletSelect.wallets,

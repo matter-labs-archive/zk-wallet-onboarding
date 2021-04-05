@@ -19,7 +19,7 @@ export function validateType(options: {
   type: string
   optional?: boolean
 }): never | void {
-  const {name, value, type, optional} = options
+  const { name, value, type, optional } = options
   if (!optional && typeof value === "undefined") {
     throw new Error(`"${name}" is required`)
   }
@@ -53,21 +53,22 @@ function invalidParams(
 }
 
 export function validateInit(init: Initialization): never | void {
-  validateType({name: "init", value: init, type: "object"})
+  validateType({ name: "init", value: init, type: "object" })
 
   const {
-          dappId,
-          networkId,
-          networkName,
-          subscriptions,
-          walletSelect,
-          walletCheck,
-          darkMode,
-          apiUrl,
-          hideBranding,
-          blockPollingInterval,
-          ...otherParams
-        } = init
+    dappId,
+    networkId,
+    networkName,
+    subscriptions,
+    walletSelect,
+    walletCheck,
+    darkMode,
+    apiUrl,
+    hideBranding,
+    blockPollingInterval,
+    popupContent,
+    ...otherParams
+  } = init
 
   invalidParams(
     otherParams,
@@ -81,7 +82,8 @@ export function validateInit(init: Initialization): never | void {
       "darkMode",
       "apiUrl",
       "hideBranding",
-      "blockPollingInterval"
+      "blockPollingInterval",
+      "popupContent"
     ],
     "init"
   )
@@ -92,7 +94,15 @@ export function validateInit(init: Initialization): never | void {
     type: "string",
     optional: true
   })
-  validateType({name: "networkId", value: networkId, type: "number"})
+
+  validateType({
+    name: "popupContent",
+    value: popupContent,
+    type: "object",
+    optional: true
+  })
+  validateType({ name: "networkId", value: networkId, type: "number" })
+
   validateType({
     name: "networkName",
     value: networkName,
@@ -159,7 +169,7 @@ export function validateInit(init: Initialization): never | void {
 }
 
 function validateSubscriptions(subscriptions: Subscriptions): never | void {
-  const {address, network, balance, wallet, ...otherParams} = subscriptions
+  const { address, network, balance, wallet, ...otherParams } = subscriptions
 
   invalidParams(otherParams, validSubscriptionKeys, "subscriptions")
 
@@ -195,15 +205,15 @@ function validateSubscriptions(subscriptions: Subscriptions): never | void {
 function validateWalletSelect(
   walletSelect: WalletSelectModuleOptions
 ): never | void {
-  validateType({name: "walletSelect", value: walletSelect, type: "object"})
+  validateType({ name: "walletSelect", value: walletSelect, type: "object" })
 
   const {
-          heading,
-          description,
-          explanation,
-          wallets,
-          ...otherParams
-        } = walletSelect
+    heading,
+    description,
+    explanation,
+    wallets,
+    ...otherParams
+  } = walletSelect
 
   invalidParams(
     otherParams,
@@ -256,20 +266,20 @@ export function validateWallet(
 
   if (isWalletModule(obj)) {
     const {
-            name,
-            iconSrc,
-            iconSrcSet,
-            svg,
-            wallet,
-            link,
-            installMessage,
-            preferred,
-            desktop,
-            mobile,
-            type,
-            osExclusions,
-            ...otherParams
-          } = obj
+      name,
+      iconSrc,
+      iconSrcSet,
+      svg,
+      wallet,
+      link,
+      installMessage,
+      preferred,
+      desktop,
+      mobile,
+      type,
+      osExclusions,
+      ...otherParams
+    } = obj
 
     invalidParams(
       otherParams,
@@ -290,8 +300,8 @@ export function validateWallet(
       "selectWallets.wallets item"
     )
 
-    validateType({name: "name", value: name, type: "string"})
-    validateType({name: "wallet", value: wallet, type: "function"})
+    validateType({ name: "name", value: name, type: "string" })
+    validateType({ name: "wallet", value: wallet, type: "function" })
 
     validateType({
       name: "iconSrc",
@@ -307,8 +317,8 @@ export function validateWallet(
       optional: true
     })
 
-    validateType({name: "svg", value: svg, type: "string", optional: true})
-    validateType({name: "link", value: link, type: "string", optional: true})
+    validateType({ name: "svg", value: svg, type: "string", optional: true })
+    validateType({ name: "link", value: link, type: "string", optional: true })
 
     validateType({
       name: "installMessage",
@@ -365,22 +375,22 @@ export function isWalletCheckModule(obj: any): obj is WalletCheckModule {
 function validateWalletCheck(
   walletCheck: Array<WalletCheckModule | WalletCheckInit>
 ): never | void {
-  validateType({name: "walletCheck", value: walletCheck, type: "array"})
+  validateType({ name: "walletCheck", value: walletCheck, type: "array" })
   walletCheck.forEach(check => {
     if (isWalletCheckModule(check)) {
       validateWalletCheckModule(check)
     } else {
-      validateType({name: "walletCheck item", value: check, type: "object"})
+      validateType({ name: "walletCheck item", value: check, type: "object" })
       const {
-              checkName,
-              heading,
-              description,
-              minimumBalance,
-              html,
-              icon,
-              button,
-              ...otherParams
-            } = check
+        checkName,
+        heading,
+        description,
+        minimumBalance,
+        html,
+        icon,
+        button,
+        ...otherParams
+      } = check
 
       invalidParams(
         otherParams,
@@ -396,7 +406,11 @@ function validateWalletCheck(
         "walletCheck item"
       )
 
-      validateType({name: "checkName", value: checkName, type: "string"})
+      validateType({
+        name: "checkName",
+        value: checkName,
+        type: "string"
+      })
 
       validateType({
         name: "heading",
@@ -452,16 +466,40 @@ export function validateWalletCheckModule(module: WalletCheckModule) {
 }
 
 export function validateConfig(configuration: ConfigOptions): never | void {
-  validateType({name: "configuration", value: configuration, type: "object"})
+  validateType({ name: "configuration", value: configuration, type: "object" })
 
-  const {darkMode, networkId, ...otherParams} = configuration
+  const {
+    darkMode,
+    networkId,
+    popupContent,
+    hideBranding,
+    ...otherParams
+  } = configuration
 
-  invalidParams(otherParams, ["darkMode", "networkId"], "configuration")
+  invalidParams(
+    otherParams,
+    ["darkMode", "networkId", "popupContent", "hideBranding"],
+    "configuration"
+  )
 
   validateType({
     name: "darkMode",
     value: darkMode,
     type: "boolean",
+    optional: true
+  })
+
+  validateType({
+    name: "hideBranding",
+    value: hideBranding,
+    type: "boolean",
+    optional: true
+  })
+
+  validateType({
+    name: "popupContent",
+    value: popupContent,
+    type: "object",
     optional: true
   })
 
@@ -474,18 +512,18 @@ export function validateConfig(configuration: ConfigOptions): never | void {
 }
 
 export function validateModal(modal: WalletCheckModal): never | void {
-  validateType({name: "modal", value: modal, type: "object"})
+  validateType({ name: "modal", value: modal, type: "object" })
 
   const {
-          heading,
-          description,
-          button,
-          eventCode,
-          action,
-          icon,
-          html,
-          ...otherParams
-        } = modal
+    heading,
+    description,
+    button,
+    eventCode,
+    action,
+    icon,
+    html,
+    ...otherParams
+  } = modal
 
   invalidParams(
     otherParams,
@@ -493,9 +531,9 @@ export function validateModal(modal: WalletCheckModal): never | void {
     "modal"
   )
 
-  validateType({name: "heading", value: heading, type: "string"})
-  validateType({name: "description", value: description, type: "string"})
-  validateType({name: "eventCode", value: eventCode, type: "string"})
+  validateType({ name: "heading", value: heading, type: "string" })
+  validateType({ name: "description", value: description, type: "string" })
+  validateType({ name: "eventCode", value: eventCode, type: "string" })
   validateType({
     name: "action",
     value: action,
@@ -518,13 +556,13 @@ export function validateModal(modal: WalletCheckModal): never | void {
   })
 
   if (button) {
-    const {onclick, text, ...restParams} = button
+    const { onclick, text, ...restParams } = button
     invalidParams(restParams, ["onclick", "text"], "button")
-    validateType({name: "onclick", value: onclick, type: "function"})
-    validateType({name: "text", value: text, type: "string"})
+    validateType({ name: "onclick", value: onclick, type: "function" })
+    validateType({ name: "text", value: text, type: "string" })
   }
 
-  validateType({name: "icon", value: icon, type: "string", optional: true})
+  validateType({ name: "icon", value: icon, type: "string", optional: true })
 }
 
 export function validateWalletInterface(
@@ -537,14 +575,14 @@ export function validateWalletInterface(
   })
 
   const {
-          name,
-          connect,
-          disconnect,
-          address,
-          network,
-          balance,
-          ...otherParams
-        } = walletInterface
+    name,
+    connect,
+    disconnect,
+    address,
+    network,
+    balance,
+    ...otherParams
+  } = walletInterface
 
   invalidParams(
     otherParams,
@@ -552,7 +590,7 @@ export function validateWalletInterface(
     "walletInterface"
   )
 
-  validateType({name: "name", value: name, type: "string"})
+  validateType({ name: "name", value: name, type: "string" })
   validateType({
     name: "connect",
     value: connect,
@@ -566,7 +604,7 @@ export function validateWalletInterface(
     optional: true
   })
 
-  validateType({name: "address", value: address, type: "object"})
+  validateType({ name: "address", value: address, type: "object" })
   validateType({
     name: "address.get",
     value: address.get,
@@ -580,7 +618,7 @@ export function validateWalletInterface(
     optional: true
   })
 
-  validateType({name: "network", value: network, type: "object"})
+  validateType({ name: "network", value: network, type: "object" })
   validateType({
     name: "network.get",
     value: network.get,
@@ -594,7 +632,7 @@ export function validateWalletInterface(
     optional: true
   })
 
-  validateType({name: "balance", value: balance, type: "object"})
+  validateType({ name: "balance", value: balance, type: "object" })
   validateType({
     name: "balance.get",
     value: balance.get,
@@ -612,16 +650,16 @@ export function validateWalletInterface(
 export function validateWalletInit(
   walletInit: WalletInitOptions
 ): void | never {
-  validateType({name: "walletInit", value: walletInit, type: "object"})
+  validateType({ name: "walletInit", value: walletInit, type: "object" })
 
   const {
-          walletName,
-          preferred,
-          label,
-          iconSrc,
-          svg,
-          ...otherParams
-        } = walletInit
+    walletName,
+    preferred,
+    label,
+    iconSrc,
+    svg,
+    ...otherParams
+  } = walletInit
 
   invalidParams(
     otherParams,

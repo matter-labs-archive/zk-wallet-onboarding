@@ -9,7 +9,7 @@ export interface Initialization {
   apiUrl?: string
   hideBranding?: boolean
   blockPollingInterval?: number
-  popupContent: PopupContentInterface
+  popupContent?: PopupContentInterface
 }
 
 export interface PopupContentInterface {
@@ -418,6 +418,7 @@ interface GetState {
 export interface ConfigOptions {
   darkMode?: boolean
   networkId?: number
+  hideBranding?: boolean
   popupContent?: PopupContentInterface
 }
 
@@ -480,6 +481,7 @@ export interface AppState {
   networkId: number
   networkName: string
   version: string
+  hideBranding: boolean
   mobileDevice: boolean
   os: OS
   browser: Browser
@@ -493,7 +495,7 @@ export interface AppState {
   walletSelectDisplayedUI: boolean
   walletCheckDisplayedUI: boolean
   displayBranding: boolean
-  popupContent?: PopupContentInterface
+  popupContent: PopupContentInterface
 }
 
 export interface CancelablePromise extends Promise<any> {
