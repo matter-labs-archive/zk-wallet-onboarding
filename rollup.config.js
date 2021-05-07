@@ -2,6 +2,7 @@ import svelte from 'rollup-plugin-svelte'
 import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import image from '@rollup/plugin-image'
+import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 
 import {
@@ -30,7 +31,7 @@ export default {
     { format: 'cjs', dir: 'dist/cjs/' }
   ],
   onwarn: (warning, warn) => {
-    // supress warning as Typescript removes type definitions
+    // suppress warning as Typescript removes type definitions
     if (warning.code === 'NON_EXISTENT_EXPORT') {
       return
     }
@@ -38,6 +39,7 @@ export default {
     warn(warning)
   },
   plugins: [
+    commonjs(),
     json(),
     image(),
     svelte({
@@ -61,15 +63,15 @@ export default {
     '@portis/web3',
     '@walletconnect/web3-provider',
     'fortmatic',
-    'squarelink',
     'authereum',
     '@toruslabs/torus-embed',
     'walletlink',
-    '@unilogin/provider',
     'regenerator-runtime/runtime',
     'trezor-connect',
     'ethereumjs-tx',
     'ethereumjs-util',
+    'eth-lattice-keyring',
+    '@cvbb/eth-keyring',
     'hdkey',
     '@ledgerhq/hw-transport-u2f',
     '@ledgerhq/hw-app-eth',
@@ -81,6 +83,7 @@ export default {
     'web3-provider-engine/subproviders/hooked-wallet',
     'web3-provider-engine/subproviders/rpc',
     'web3-provider-engine/subproviders/subscriptions',
-    'web3-provider-engine/subproviders/filters'
+    'web3-provider-engine/subproviders/filters',
+    'eth-provider'
   ]
 }

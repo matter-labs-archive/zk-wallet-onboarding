@@ -1,4 +1,4 @@
-import { TrezorOptions, WalletModule, Helpers } from '../../../interfaces'
+import { TrezorOptions, WalletModule, Helpers } from "~/interfaces"
 import trezorIcon from '../wallet-icons/icon-trezor'
 
 function trezor(options: TrezorOptions & { networkId: number }): WalletModule {

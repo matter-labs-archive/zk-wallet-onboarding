@@ -3,7 +3,7 @@ import {
   WalletModule,
   Helpers,
   InjectedWithBalanceOptions
-} from '../../../interfaces'
+} from "~/interfaces"
 
 import trustIcon from '../wallet-icons/icon-trust'
 

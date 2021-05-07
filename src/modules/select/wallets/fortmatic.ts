@@ -1,5 +1,5 @@
-import { networkName } from '../../../utilities'
-import { SdkWalletOptions, WalletModule, Helpers } from '../../../interfaces'
+import { networkName } from '~/utilities'
+import { SdkWalletOptions, WalletModule, Helpers } from "~/interfaces"
 
 import fortmaticIcon from '../wallet-icons/icon-fortmatic'
 

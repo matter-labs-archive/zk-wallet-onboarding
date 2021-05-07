@@ -1,5 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
 
 import coinbaseIcon from '../wallet-icons/icon-coinbase'
 
@@ -7,7 +7,7 @@ function coinbase(options: CommonWalletOptions): WalletModule {
   const { preferred, label, iconSrc, svg } = options
 
   return {
-    name: label || 'Coinbase',
+    name: label || 'Coinbase Wallet',
     iconSrc,
     svg: svg || coinbaseIcon,
     wallet: async (helpers: Helpers) => {

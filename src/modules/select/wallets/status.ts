@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
 
 import statusIcon from '../wallet-icons/icon-status'
 
@@ -12,15 +12,39 @@ function status(options: CommonWalletOptions): WalletModule {
     iconSrcSet: iconSrc,
     svg: svg || statusIcon,
     wallet: async (helpers: Helpers) => {
-      const { getProviderName, createModernProviderInterface } = helpers
+      const { getProviderName, getAddress, getBalance, getNetwork } = helpers
 
       const provider = (window as any).ethereum
+      let accountsApproved = false
 
       return {
         provider,
         interface:
           provider && getProviderName(provider) === 'Status'
-            ? createModernProviderInterface(provider)
+            ? {
+                connect: () =>
+                  provider
+                    .request({
+                      method: 'eth_requestAccounts'
+                    })
+                    .then(() => (accountsApproved = true)),
+                address: {
+                  get: () =>
+                    accountsApproved
+                      ? getAddress(provider)
+                      : Promise.resolve(null)
+                },
+                balance: {
+                  get: () =>
+                    accountsApproved
+                      ? getBalance(provider)
+                      : Promise.resolve(null)
+                },
+                network: {
+                  get: () => getNetwork(provider)
+                },
+                name: 'Status'
+              }
             : null
       }
     },

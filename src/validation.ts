@@ -8,8 +8,9 @@ import {
   WalletInterface,
   WalletInitOptions,
   WalletCheckInit,
-  WalletSelectModuleOptions
-} from './interfaces'
+  WalletSelectModuleOptions,
+  TermsOfServiceAgreementOptions
+} from '~/interfaces'
 
 const validSubscriptionKeys = [
   'address',
@@ -64,6 +65,7 @@ export function validateInit(init: Initialization): never | void {
   const {
     dappId,
     networkId,
+    networkName,
     subscriptions,
     walletSelect,
     walletCheck,
@@ -79,6 +81,7 @@ export function validateInit(init: Initialization): never | void {
     [
       'dappId',
       'networkId',
+      'networkName',
       'subscriptions',
       'walletSelect',
       'walletCheck',
@@ -86,6 +89,7 @@ export function validateInit(init: Initialization): never | void {
       'apiUrl',
       'hideBranding',
       'blockPollingInterval',
+      'agreement',
       'popupContent'
     ],
     'init'
@@ -98,6 +102,12 @@ export function validateInit(init: Initialization): never | void {
     optional: true
   })
   validateType({ name: 'networkId', value: networkId, type: 'number' })
+  validateType({
+    name: 'networkName',
+    value: networkName,
+    type: 'string',
+    optional: true
+  })
   validateType({
     name: 'darkMode',
     value: darkMode,
@@ -201,12 +211,13 @@ function validateWalletSelect(
     description,
     explanation,
     wallets,
+    agreement,
     ...otherParams
   } = walletSelect
 
   invalidParams(
     otherParams,
-    ['heading', 'description', 'explanation', 'wallets'],
+    ['heading', 'description', 'explanation', 'wallets', 'agreement'],
     'walletSelect'
   )
 
@@ -234,6 +245,41 @@ function validateWalletSelect(
   if (Array.isArray(wallets)) {
     wallets.forEach(validateWallet)
   }
+
+  validateType({
+    name: 'agreement',
+    value: agreement,
+    type: 'object',
+    optional: true
+  })
+
+  if (agreement) {
+    validateAgreement(agreement)
+  }
+}
+
+const validateAgreement = (agreement: TermsOfServiceAgreementOptions) => {
+  const { version, termsUrl, privacyUrl } = agreement
+  validateType({
+    name: 'version',
+    value: version,
+    type: 'string',
+    optional: false
+  })
+
+  validateType({
+    name: 'termsUrl',
+    value: termsUrl,
+    type: 'string',
+    optional: true
+  })
+
+  validateType({
+    name: 'privacyUrl',
+    value: privacyUrl,
+    type: 'string',
+    optional: true
+  })
 }
 
 export function isWalletModule(obj: any): obj is WalletModule {

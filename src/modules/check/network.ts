@@ -1,9 +1,9 @@
-import { networkName } from '../../utilities'
+import { networkName } from '~/utilities'
 import {
   WalletCheckModal,
   StateAndHelpers,
   WalletCheckCustomOptions
-} from '../../interfaces'
+} from "~/interfaces"
 import { networkIcon } from './icons'
 
 function network(
@@ -30,7 +30,7 @@ function network(
           setTimeout(() => {
             if (network === null) {
               // if prom isn't resolving after 500ms, then stop waiting
-              resolve()
+              resolve(undefined)
             }
           }, 500)
         })
@@ -46,7 +46,7 @@ function network(
             network
           )}</b> to <b>${networkName(
             appNetworkId
-          )} network</b> for this Dapp. <br><br> <i style="font-size: inherit; font-family: inherit;">*Some wallets may not support changing networks. If you can not change networks in your wallet you may consider switching to a different wallet.</i>`,
+          )}</b> for this Dapp. <br><br> <i style="font-size: inherit; font-family: inherit;">*Some wallets may not support changing networks. If you can not change networks in your wallet you may consider switching to a different wallet.</i>`,
         eventCode: 'networkFail',
         button: button || {
           onclick: () => {

@@ -1,6 +1,7 @@
 export interface Initialization {
   dappId?: string
   networkId: number
+  networkName?: string
   subscriptions?: Subscriptions
   walletSelect?: WalletSelectModuleOptions
   walletCheck?: Array<WalletCheckModule | WalletCheckInit>
@@ -28,7 +29,8 @@ export interface WalletSelectModuleOptions {
   heading?: string
   description?: string
   wallets?: Array<WalletModule | WalletInitOptions>
-  explanation?: string,
+  explanation?: string
+  agreement?: TermsOfServiceAgreementOptions
   popupContent?: PopupContent
 }
 
@@ -37,7 +39,14 @@ export interface WalletSelectModule {
   description: string
   wallets: Array<WalletModule | WalletInitOptions>
   explanation?: string
+  agreement?: TermsOfServiceAgreementOptions
   popupContent?: PopupContent
+}
+
+export interface TermsOfServiceAgreementOptions {
+  version: string
+  termsUrl?: string
+  privacyUrl?: string
 }
 
 export interface WalletCheckModule {
@@ -374,7 +383,7 @@ export type AllWalletInitOptions = CommonWalletOptions &
   AuthereumOptions &
   LedgerOptions &
   WalletLinkOptions &
-  InjectedWithBalanceOptions & { networkId: number }
+  InjectedWithBalanceOptions & { networkId: number } & { isMobile: boolean }
 
 export interface WalletCheckCustomOptions {
   heading?: string
@@ -475,6 +484,7 @@ export type OS = {
 export interface AppState {
   dappId: string
   networkId: number
+  networkName: string
   version: string
   mobileDevice: boolean
   os: OS
@@ -489,9 +499,24 @@ export interface AppState {
   walletSelectDisplayedUI: boolean
   walletCheckDisplayedUI: boolean
   displayBranding: boolean
+  agreement: TermsOfServiceAgreementOptions
   popupContent?: PopupContent
 }
 
 export interface CancelablePromise extends Promise<any> {
   cancel: () => void
+}
+
+export interface StorageKeys {
+  TERMS_AGREEMENT: string
+}
+
+/**
+ * The object that will be stored in local storage to track
+ * user's agreement to the terms.
+ */
+export interface TermsAgreementState {
+  version: string
+  terms?: boolean
+  privacy?: boolean
 }

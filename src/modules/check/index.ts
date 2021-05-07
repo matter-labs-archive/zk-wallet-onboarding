@@ -1,5 +1,5 @@
-import { isWalletCheckModule } from '../../validation'
-import { WalletCheckModule, WalletCheckInit } from '../../interfaces'
+import { isWalletCheckModule } from '~/validation'
+import { WalletCheckModule, WalletCheckInit } from '~/interfaces'
 
 const defaultChecks = ['connect', 'network']
 

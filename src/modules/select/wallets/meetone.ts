@@ -1,5 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
 
 import meetoneIcon from '../wallet-icons/icon-meetone.png'
 import meetoneIcon2x from '../wallet-icons/icon-meetone.png'

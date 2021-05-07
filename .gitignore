@@ -8,3 +8,5 @@ package-lock.json
 .idea
 /.npmrc.swp
 /yarn-error.log
+/.yarn/cache/
+/.yarn/

@@ -1,5 +1,5 @@
-import { networkName, openLink } from '../../../utilities'
-import { SdkWalletOptions, WalletModule, Helpers } from '../../../interfaces'
+import { networkName, openLink } from '~/utilities'
+import { SdkWalletOptions, WalletModule, Helpers } from "~/interfaces"
 
 import portisIcon from '../wallet-icons/icon-portis'
 

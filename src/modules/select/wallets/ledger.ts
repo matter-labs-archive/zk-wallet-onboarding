@@ -1,4 +1,4 @@
-import { LedgerOptions, WalletModule, Helpers } from '../../../interfaces'
+import { LedgerOptions, WalletModule, Helpers } from '~/interfaces'
 
 import ledgerIcon from '../wallet-icons/icon-ledger'
 
@@ -74,7 +74,7 @@ async function ledgerProvider(options: {
 }) {
   const { default: createProvider } = await import('./providerEngine')
   const { generateAddresses, isValidPath } = await import('./hd-wallet')
-  const { default: TransportU2F } = await import('@ledgerhq/hw-transport-u2f')
+  const { default: TransportWebUSB } = await import('@ledgerhq/hw-transport-webusb')
   const { default: Eth } = await import('@ledgerhq/hw-app-eth')
 
   const EthereumTx = await import('ethereumjs-tx')
@@ -187,7 +187,12 @@ async function ledgerProvider(options: {
     try {
       transport = LedgerTransport
         ? await LedgerTransport.create()
-        : await TransportU2F.create()
+        : await TransportWebUSB.create()
+
+      /**
+       * @todo: remove before the release
+       */
+      transport.setDebugMode(true)
 
       eth = new Eth(transport)
 
@@ -201,9 +206,7 @@ async function ledgerProvider(options: {
         complete: () => {}
       }
 
-      LedgerTransport
-        ? LedgerTransport.listen(observer)
-        : TransportU2F.listen(observer)
+      LedgerTransport?.listen(observer)
     } catch (error) {
       throw new Error('Error connecting to Ledger wallet')
     }

@@ -14,11 +14,10 @@ import {
   state,
   wallet,
   walletInterface
-} from './stores'
+} from '~/stores'
 
-import { getDeviceInfo } from './utilities'
-import { initializeBlocknative } from './services'
-import { validateConfig, validateInit } from './validation'
+import { getDeviceInfo } from '~/utilities'
+import { validateInit, validateConfig } from '~/validation'
 
 import { version } from '../package.json'
 
@@ -29,9 +28,9 @@ import {
   Initialization,
   UserState,
   Wallet
-} from './interfaces'
+} from '~/interfaces'
 
-import initializeModules from './modules'
+import initializeModules from '~/modules'
 
 let onboard: any
 
@@ -47,6 +46,7 @@ function init(initialization: Initialization): API {
     subscriptions,
     dappId,
     networkId,
+    networkName,
     darkMode,
     apiUrl,
     hideBranding,
@@ -60,6 +60,7 @@ function init(initialization: Initialization): API {
     networkId,
     initialization.walletSelect,
     initialization.walletCheck,
+    isMobile,
     popupContent
   )
 
@@ -74,7 +75,9 @@ function init(initialization: Initialization): API {
   app.update((store: AppState) => ({
     ...store,
     dappId,
+    apiUrl,
     networkId,
+    networkName,
     version,
     mobileDevice: isMobile,
     os,
@@ -82,14 +85,11 @@ function init(initialization: Initialization): API {
     darkMode,
     displayBranding,
     checkModules: initializedModules.walletCheck,
-    blockPollingInterval
+    blockPollingInterval,
+    agreement: initialization.walletSelect?.agreement || null
   }))
 
   initializeStores()
-
-  if (dappId) {
-    initializeBlocknative(dappId, networkId, apiUrl)
-  }
 
   onboard = new Onboard({
     target: document.body,

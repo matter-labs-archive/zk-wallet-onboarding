@@ -1,7 +1,9 @@
 import bowser from 'bowser'
 import BigNumber from 'bignumber.js'
+import { get } from 'svelte/store'
 
-import { WalletInterface } from './interfaces'
+import { app } from '~/stores'
+import { WalletInterface } from '~/interfaces'
 
 export function getNetwork(provider: any): Promise<number | any> {
   return new Promise((resolve, reject) => {
@@ -148,22 +150,23 @@ export function createModernProviderInterface(provider: any): WalletInterface {
     balance: {
       get: () => getBalance(provider)
     },
-    connect: () =>
-      new Promise((resolve, reject: (err: { message: string }) => void) => {
-        const request = provider.request
-          ? getAddress(provider).then((address: string) => {
-              return address
-                ? address
-                : provider.request({ method: 'eth_requestAccounts' })
+    connect: async () => {
+      try {
+        if (provider.request) {
+          const result = await provider.request({
+            method: 'eth_requestAccounts'
             })
-          : provider.enable()
-
-        return request.then(resolve).catch(() =>
-          reject({
-            message: 'This dapp needs access to your account information.'
-          })
-        )
-      }),
+          return result
+        } else {
+          const result = await provider.enable()
+          return result
+        }
+      } catch (e) {
+        throw {
+          message: 'This dapp requires access to your account information.'
+        }
+      }
+    },
     name: getProviderName(provider)
   }
 }
@@ -189,11 +192,17 @@ export function getProviderName(provider: any): string | undefined {
   if (provider.isWalletIO) {
     return 'wallet.io'
   }
+
   if (provider.isDcentWallet) {
     return "D'CENT"
   }
+
   if (provider.isTokenPocket) {
     return 'TokenPocket'
+  }
+
+  if (provider.isOwnbit) {
+    return 'Ownbit'
   }
 
   if (provider.wallet === 'MEETONE') {
@@ -260,6 +269,14 @@ export function getProviderName(provider: any): string | undefined {
     return 'AToken'
   }
 
+  if (provider.isLiquality) {
+    return 'Liquality'
+  }
+
+  if (provider.isAlphaWallet) {
+    return 'AlphaWallet'
+  }
+
   if (provider.host && provider.host.indexOf('localhost') !== -1) {
     return 'localhost'
   }
@@ -293,7 +310,8 @@ export function networkName(id: number): string {
     case 100:
       return 'xdai'
     default:
-      return 'local'
+      const { networkId, networkName } = get(app)
+      return (networkId === id && networkName) || 'unknown'
   }
 }
 

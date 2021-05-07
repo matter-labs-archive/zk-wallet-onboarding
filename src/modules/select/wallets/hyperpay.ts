@@ -1,5 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from '../../../interfaces'
+import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
 
 import hyerpayIcon from '../wallet-icons/icon-hyperpay.png'
 import hyerpayIcon2x from '../wallet-icons/icon-hyperpay@2x.png'

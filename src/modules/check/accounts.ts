@@ -2,7 +2,7 @@ import {
   WalletCheckModule,
   StateAndHelpers,
   WalletCheckModal
-} from '../../interfaces'
+} from "~/interfaces"
 import { usbIcon } from './icons'
 
 type AccountsAndBalances = Array<{ balance: string; address: string }>

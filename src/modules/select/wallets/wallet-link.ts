@@ -1,4 +1,4 @@
-import { WalletLinkOptions, WalletModule, Helpers } from '../../../interfaces'
+import { WalletLinkOptions, WalletModule, Helpers } from "~/interfaces"
 
 import coinbaseIcon from '../wallet-icons/icon-coinbase'
 
@@ -17,7 +17,7 @@ function walletLink(
   } = options
 
   return {
-    name: label || 'WalletLink',
+    name: label || 'Coinbase Wallet',
     svg: svg || coinbaseIcon,
     iconSrc,
     wallet: async (helpers: Helpers) => {

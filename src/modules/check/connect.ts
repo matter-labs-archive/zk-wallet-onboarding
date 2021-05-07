@@ -3,7 +3,7 @@ import {
   StateAndHelpers,
   WalletCheckModule,
   WalletCheckCustomOptions
-} from '../../interfaces'
+} from "~/interfaces"
 import { connectIcon } from './icons'
 
 function connect(options: WalletCheckCustomOptions = {}): WalletCheckModule {
@@ -22,7 +22,7 @@ function connect(options: WalletCheckCustomOptions = {}): WalletCheckModule {
           setTimeout(() => {
             if (address === null) {
               // if prom isn't resolving after 500ms, then stop waiting
-              resolve()
+              resolve(undefined)
             }
           }, 500)
         })

@@ -1,4 +1,4 @@
-import { LatticeOptions, WalletModule, Helpers } from '../../../interfaces'
+import { LatticeOptions, WalletModule, Helpers } from "~/interfaces"
 import latticeIcon from '../wallet-icons/icon-lattice'
 
 function lattice(
@@ -156,7 +156,7 @@ async function latticeProvider(options: {
     return addressList
   }
 
-  function setPrimaryAccount(address: string) {
+  function setPrimaryAccount() {
     return
   }
 
