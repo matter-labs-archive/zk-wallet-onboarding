@@ -1,5 +1,5 @@
 import { networkName } from '~/utilities'
-import { Helpers, TorusOptions, WalletModule } from "~/interfaces"
+import { Helpers, TorusOptions, WalletModule } from '~/interfaces'
 
 import torusIcon from '../wallet-icons/icon-torus'
 

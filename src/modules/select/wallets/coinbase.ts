@@ -1,5 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import coinbaseIcon from '../wallet-icons/icon-coinbase'
 

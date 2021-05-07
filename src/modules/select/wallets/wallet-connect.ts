@@ -1,14 +1,10 @@
-import {
-  WalletConnectOptions,
-  WalletModule,
-  Helpers
-} from "~/interfaces"
+import { WalletConnectOptions, WalletModule, Helpers } from '~/interfaces'
 
 import walletConnectIcon from '../wallet-icons/icon-wallet-connect'
 
 import { get } from 'svelte/store'
 
-import { app } from "~/stores"
+import { app } from '~/stores'
 
 function walletConnect(
   options: WalletConnectOptions & { networkId: number }

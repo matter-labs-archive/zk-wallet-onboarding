@@ -1,9 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import {
-  WalletModule,
-  Helpers,
-  InjectedWithBalanceOptions
-} from "~/interfaces"
+import { WalletModule, Helpers, InjectedWithBalanceOptions } from '~/interfaces'
 
 import alphawalletIcon from '../wallet-icons/icon-alphawallet'
 

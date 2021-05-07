@@ -115,7 +115,11 @@
           viewBox="0 0 47.971 47.971"
           style="enable-background:new 0 0 47.971 47.971; transition: fill 150ms
           ease-in-out;"
-          fill={closeHovered ? ($app.darkMode ? '#ffffff' : '#4a4a4a') : '#9B9B9B'}
+          fill={closeHovered
+            ? $app.darkMode
+              ? '#ffffff'
+              : '#4a4a4a'
+            : '#9B9B9B'}
           xml:space="preserve"
         >
           <g>

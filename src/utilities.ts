@@ -1,9 +1,9 @@
-import bowser from 'bowser'
 import BigNumber from 'bignumber.js'
+import bowser from 'bowser'
 import { get } from 'svelte/store'
+import { WalletInterface } from '~/interfaces'
 
 import { app } from '~/stores'
-import { WalletInterface } from '~/interfaces'
 
 export function getNetwork(provider: any): Promise<number | any> {
   return new Promise((resolve, reject) => {
@@ -155,7 +155,7 @@ export function createModernProviderInterface(provider: any): WalletInterface {
         if (provider.request) {
           const result = await provider.request({
             method: 'eth_requestAccounts'
-            })
+          })
           return result
         } else {
           const result = await provider.enable()

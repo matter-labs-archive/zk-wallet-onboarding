@@ -52,6 +52,7 @@ export default {
       preferBuiltins: true
     }),
     typescript({
+      tsconfig: './tsconfig.json',
       clean: true,
       useTsconfigDeclarationDir: true
     })
@@ -67,13 +68,14 @@ export default {
     '@toruslabs/torus-embed',
     'walletlink',
     'regenerator-runtime/runtime',
+    '@trezor/rollout',
     'trezor-connect',
     'ethereumjs-tx',
     'ethereumjs-util',
     'eth-lattice-keyring',
     '@cvbb/eth-keyring',
     'hdkey',
-    '@ledgerhq/hw-transport-u2f',
+    '@ledgerhq/hw-transport-webusb',
     '@ledgerhq/hw-app-eth',
     'util',
     'assert',

@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import operaIcon from '../wallet-icons/icon-opera.png'
 import operaIcon2x from '../wallet-icons/icon-opera@2x.png'

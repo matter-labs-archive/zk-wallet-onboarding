@@ -3,7 +3,7 @@ import {
   WalletCheckModal,
   StateAndHelpers,
   WalletCheckCustomOptions
-} from "~/interfaces"
+} from '~/interfaces'
 import { networkIcon } from './icons'
 
 function network(

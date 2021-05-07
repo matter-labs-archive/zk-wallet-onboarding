@@ -351,7 +351,7 @@
           Try Again
         </Button>
       {:else}
-        <div></div>
+        <div />
       {/if}
       {#if loading}
         <Spinner />

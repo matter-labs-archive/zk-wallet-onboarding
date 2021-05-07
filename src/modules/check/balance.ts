@@ -2,7 +2,7 @@ import {
   WalletCheckModal,
   StateAndHelpers,
   WalletCheckCustomOptions
-} from "~/interfaces"
+} from '~/interfaces'
 import { balanceIcon } from './icons'
 
 function balance(

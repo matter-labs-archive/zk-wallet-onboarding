@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import frameIcon from '../wallet-icons/icon-frame.png'
 import frameIcon2x from '../wallet-icons/icon-frame@2x.png'

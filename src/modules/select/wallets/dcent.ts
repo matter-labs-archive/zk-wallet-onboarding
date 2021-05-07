@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import dcentIcon from '../wallet-icons/icon-dcent'
 

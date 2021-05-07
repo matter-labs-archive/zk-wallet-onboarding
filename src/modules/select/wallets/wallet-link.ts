@@ -1,4 +1,4 @@
-import { WalletLinkOptions, WalletModule, Helpers } from "~/interfaces"
+import { WalletLinkOptions, WalletModule, Helpers } from '~/interfaces'
 
 import coinbaseIcon from '../wallet-icons/icon-coinbase'
 

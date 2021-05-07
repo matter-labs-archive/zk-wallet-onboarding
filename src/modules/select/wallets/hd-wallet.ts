@@ -80,7 +80,5 @@ export function isValidPath(path: string) {
 
   const addressFieldDigit = Number(parts[5][0])
 
-  return !(isNaN(addressFieldDigit) || addressFieldDigit < 0);
-
-
+  return !(isNaN(addressFieldDigit) || addressFieldDigit < 0)
 }

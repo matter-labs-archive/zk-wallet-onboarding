@@ -74,7 +74,9 @@ async function ledgerProvider(options: {
 }) {
   const { default: createProvider } = await import('./providerEngine')
   const { generateAddresses, isValidPath } = await import('./hd-wallet')
-  const { default: TransportWebUSB } = await import('@ledgerhq/hw-transport-webusb')
+  const { default: TransportWebUSB } = await import(
+    '@ledgerhq/hw-transport-webusb'
+  )
   const { default: Eth } = await import('@ledgerhq/hw-app-eth')
 
   const EthereumTx = await import('ethereumjs-tx')
@@ -188,11 +190,6 @@ async function ledgerProvider(options: {
       transport = LedgerTransport
         ? await LedgerTransport.create()
         : await TransportWebUSB.create()
-
-      /**
-       * @todo: remove before the release
-       */
-      transport.setDebugMode(true)
 
       eth = new Eth(transport)
 

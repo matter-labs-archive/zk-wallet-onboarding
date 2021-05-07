@@ -1,5 +1,5 @@
 import { mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import atokenIcon from '../wallet-icons/icon-atoken.png'
 import atokenIcon2x from '../wallet-icons/icon-atoken@2x.png'

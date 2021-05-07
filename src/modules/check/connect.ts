@@ -3,7 +3,7 @@ import {
   StateAndHelpers,
   WalletCheckModule,
   WalletCheckCustomOptions
-} from "~/interfaces"
+} from '~/interfaces'
 import { connectIcon } from './icons'
 
 function connect(options: WalletCheckCustomOptions = {}): WalletCheckModule {

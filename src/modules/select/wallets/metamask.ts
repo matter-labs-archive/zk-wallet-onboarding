@@ -1,5 +1,5 @@
 import { extensionInstallMessage, mobileWalletInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import metamaskIcon from '../wallet-icons/icon-metamask.png'
 import metamaskIcon2x from '../wallet-icons/icon-metamask@2x.png'

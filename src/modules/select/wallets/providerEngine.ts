@@ -6,7 +6,7 @@ import FilterSubprovider from 'web3-provider-engine/subproviders/filters'
 
 import { get } from 'svelte/store'
 
-import { app } from "~/stores"
+import { app } from '~/stores'
 
 function createProvider(config: any) {
   const {

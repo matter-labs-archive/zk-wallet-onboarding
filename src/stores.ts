@@ -12,7 +12,8 @@ import {
   StateSyncer,
   BalanceStore,
   CancelablePromise,
-  WalletCheckModule, PopupContent
+  WalletCheckModule,
+  PopupContent
 } from '~/interfaces'
 
 const defaultPopupContent: PopupContent = {

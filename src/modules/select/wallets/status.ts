@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import statusIcon from '../wallet-icons/icon-status'
 

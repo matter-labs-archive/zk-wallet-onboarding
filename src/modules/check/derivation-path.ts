@@ -1,4 +1,4 @@
-import { WalletCheckModal, StateAndHelpers, Connect } from "~/interfaces"
+import { WalletCheckModal, StateAndHelpers, Connect } from '~/interfaces'
 import { usbIcon } from './icons'
 
 interface DerivationPaths {

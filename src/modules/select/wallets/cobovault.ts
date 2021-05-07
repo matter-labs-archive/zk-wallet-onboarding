@@ -1,5 +1,5 @@
 import AirGapedKeyring from '@cvbb/eth-keyring'
-import { Helpers, LatticeOptions, WalletModule } from "~/interfaces"
+import { Helpers, LatticeOptions, WalletModule } from '~/interfaces'
 import cobovaultIcon from '../wallet-icons/icon-cobovault.png'
 import cobovaultIcon2x from '../wallet-icons/icon-cobovault@2x.png'
 

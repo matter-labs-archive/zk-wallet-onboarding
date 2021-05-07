@@ -1,5 +1,5 @@
 import { extensionInstallMessage } from '../content'
-import { WalletModule, Helpers, CommonWalletOptions } from "~/interfaces"
+import { WalletModule, Helpers, CommonWalletOptions } from '~/interfaces'
 
 import liqualityIcon from '../wallet-icons/icon-liquality.png'
 import liqualityIcon2x from '../wallet-icons/icon-liquality@2x.png'

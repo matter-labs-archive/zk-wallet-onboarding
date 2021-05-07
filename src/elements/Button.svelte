@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { app } from '../stores'
+  import { app } from '~/stores'
   export let onclick: () => void = () => {}
   export let position: string = ''
   export let disabled: boolean = false
 </script>
 
-<style>
+<style lang="css">
   button {
     background: inherit;
     font-size: 0.889em;
@@ -15,10 +15,9 @@
     padding: 0.55em 1.4em;
     cursor: pointer;
     color: #4a90e2;
-      transition: background 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
     line-height: 1.15;
     opacity: 1;
-    transition: opacity 200ms;
   }
 
   button:focus {

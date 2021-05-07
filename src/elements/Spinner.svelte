@@ -58,9 +58,9 @@
 
 <div class="bn-onboard-loading-container">
   <div class="bn-onboard-custom bn-onboard-loading">
-    <div class="bn-onboard-loading-first"></div>
-    <div class="bn-onboard-loading-second"></div>
-    <div class="bn-onboard-loading-third"></div>
+    <div class="bn-onboard-loading-first" />
+    <div class="bn-onboard-loading-second" />
+    <div class="bn-onboard-loading-third" />
   </div>
   {#if description}
     <span>{description}</span>

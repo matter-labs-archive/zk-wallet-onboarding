@@ -1,4 +1,4 @@
-import { LatticeOptions, WalletModule, Helpers } from "~/interfaces"
+import { LatticeOptions, WalletModule, Helpers } from '~/interfaces'
 import latticeIcon from '../wallet-icons/icon-lattice'
 
 function lattice(
