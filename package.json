@@ -32,7 +32,7 @@
     "prepare": "npm run build",
     "lint": "eslint 'src/**/*.ts' && prettier --check {'src/**/*.ts','src/**/*.svelte'}",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
-    "format": "prettier {'src/**/*.ts','src/**/*.svelte'} --fix"
+    "format": "prettier -w --loglevel error {'src/**/*.ts','src/**/*.svelte'}"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
@@ -61,9 +61,9 @@
     "typescript": "4.2.3"
   },
   "dependencies": {
-    "@ledgerhq/hw-transport-webusb": "^5.51.0",
     "@cvbb/eth-keyring": "^2.0.0",
     "@ledgerhq/hw-app-eth": "^5.51.0",
+    "@ledgerhq/hw-transport-webusb": "^5.51.0",
     "@portis/web3": "^4.0.0",
     "@toruslabs/torus-embed": "^1.10.10",
     "@types/trezor-connect": "^7.0.0",
